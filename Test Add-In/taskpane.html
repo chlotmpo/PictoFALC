@@ -1,0 +1,140 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+<!-- This file shows how to design a first-run page that provides a welcome screen to the user about the features of the add-in. -->
+
+
+
+<!DOCTYPE html>
+<html>
+
+
+
+
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contoso Task Pane Add-in</title>
+
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+
+    <!-- For more information on Fluent UI, visit https://developer.microsoft.com/fluentui#/. -->
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.6.1/css/fabric.min.css"/>
+
+    <!-- Template styles -->
+    <link href="taskpane.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="ms-font-m ms-welcome ms-Fabric">
+    <header class="ms-welcome__header ms-bgColor-neutralLighter">
+        <img width="90" height="90" src="../../assets/logo-filled.png" alt="Contoso" title="Contoso" />
+        <h1 class="ms-font-su"> Auto Falc</h1>
+    </header>
+
+
+    
+    <section id="sideload-msg" class="ms-welcome__main">
+        <h2 class="ms-font-xl">Please sideload your add-in to see app body.</h2>
+    </section>
+
+
+    <main id="app-body" class="ms-welcome__main" style="display: none;">
+        
+
+        <!-- Création de la zone de texte -->
+
+        <label for="txtFalc"></label>
+        <textarea id="txtFalc" name="txtFalc"
+          rows="5" cols="40">Entrer votre texte ici
+        </textarea>
+
+        <!-- Création du bouton -->
+
+
+        <button class="bouton" id="Submit"><span>Générer Images</span></button>
+
+
+        &nbsp;&nbsp; <!-- ajouter un espace -->
+
+
+        <!-- Création de la gallerie -->
+
+        <div class="myGallery">
+            <div class="item">
+              <img src="https://www.sclera.be/resources/pictos/administratie.png" />
+              <span class="caption">ordinateur</span>
+            </div>
+            <div class="item">
+              <img src="https://www.sclera.be/resources/pictos/agenda.png" />
+              <span class="caption">agenda</span>
+            </div>
+            <div class="item">
+              <img src="https://www.sclera.be/resources/pictos/lucifer.png" />
+              <span class="caption">allumette</span>
+            </div>
+            <div class="item">
+              <img src="https://www.sclera.be/resources/pictos/kaars.png" />
+              <span class="caption">bougie</span>
+            </div>
+            <div class="item">
+              <img src="https://www.sclera.be/resources/pictos/tandenborstel.png" />
+              <span class="caption">brosse à dents</span>
+            </div>
+            <div class="item">
+              <img src="https://www.sclera.be/resources/pictos/keukenmes%20groot.png" />
+              <span class="caption">couteau</span>
+            </div>
+            <div class="item">
+                <img src="https://www.sclera.be/resources/pictos/lepel.png" />
+                <span class="caption">cuillère</span>
+            </div>
+            <div class="item">
+                <img src="https://www.sclera.be/resources/pictos/kaarten.png" />
+                <span class="caption">jeu de cartes</span>
+            </div>
+            <div class="item">
+                <img src="https://www.sclera.be/resources/pictos/wasmachine.png" />
+                <span class="caption">machine à laver</span>
+            </div>
+            <div class="item">
+                <img src="https://www.sclera.be/resources/pictos/hamer.png" />
+                <span class="caption">marteau</span>
+            </div>
+            <div class="item">
+                <img src="https://www.sclera.be/resources/pictos/computer%20muis%202.png" />
+                <span class="caption">souris</span>
+            </div>
+            <div class="item">
+                <img src="https://www.sclera.be/resources/pictos/bic.png" />
+                <span class="caption">stylo</span>
+            </div>
+            <div class="item">
+                <img src="https://www.sclera.be/resources/pictos/doos%20karton.png" />
+                <span class="caption">carton</span>
+            </div>
+            <div class="item">
+                <img src="https://www.sclera.be/resources/pictos/sleutel%20rond.png" />
+                <span class="caption">clé</span>
+            </div>
+            <div class="item">
+                <img src="https://www.sclera.be/resources/pictos/bouwen%202.png" />
+                <span class="caption">construire</span>
+            </div>
+            <div class="item">
+                <img src="https://www.sclera.be/resources/pictos/dobbelstenen.png" />
+                <span class="caption">dés</span>
+            </div>
+          </div>
+
+
+
+
+
+
+    </main>
+</body>
+
+</html>
+
+
