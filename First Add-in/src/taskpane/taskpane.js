@@ -18,6 +18,7 @@ Office.onReady((info) => {
         }
         // Assign event handlers and other initialization logic.
         document.getElementById("Submit").onclick = UseTexte;
+        document.getElementById("Try").onclick = Replace_by_Maj;
         document.getElementById("sideload-msg").style.display = "none";
         document.getElementById("app-body").style.display = "flex";
     }
@@ -25,7 +26,7 @@ Office.onReady((info) => {
 
 function UseTexte() {
     Word.run(function (context) {
-        var docBody = context.document.body;
+        var docBody = context.document.body;        
         const wordFALC = document.getElementById("txtFalc").value.toString();
         docBody.insertParagraph(wordFALC.replaceAll("\n", " ") + " => Transfert vers l'IA", "Start");
         return context.sync();
@@ -34,5 +35,19 @@ function UseTexte() {
         if (error instanceof OfficeExtension.Error) {
             console.log("Debug info: " + JSON.stringify(error.debugInfo));
         }
+    });
+}
+
+function Replace_by_Maj() {
+    Word.run(function (context) {
+        var paragraphs = context.document.getSelection().paragraphs;
+        paragraphs.load();
+        return context.sync().then(function () {
+            for (let i = 0; i < paragraphs.items.length; i++) {
+                paragraphs.items[i].insertText(paragraphs.items[i].text.toUpperCase(),
+                    "Replace");
+            }
+            
+        }).then(context.sync);
     });
 }
