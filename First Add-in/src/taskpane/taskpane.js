@@ -11,43 +11,107 @@ import "../../assets/icon-80.png";
 /* global document, Office, Word */
 
 Office.onReady((info) => {
-    if (info.host === Office.HostType.Word) {
-        // Determine if the user's version of Office supports all the Office.js APIs that are used in the tutorial.
-        if (!Office.context.requirements.isSetSupported("WordApi", "1.3")) {
-            Console.log("Sorry. The tutorial add-in uses Word.js APIs that are not available in your version of Office."); //c
-        }
-        // Assign event handlers and other initialization logic.
-        document.getElementById("Submit").onclick = UseTexte;
-        document.getElementById("Try").onclick = Replace_by_Maj;
-        document.getElementById("sideload-msg").style.display = "none";
-        document.getElementById("app-body").style.display = "flex";
+  if (info.host === Office.HostType.Word) {
+    // Determine if the user's version of Office supports all the Office.js APIs that are used in the tutorial.
+    if (!Office.context.requirements.isSetSupported("WordApi", "1.3")) {
+      Console.log("Sorry. The tutorial add-in uses Word.js APIs that are not available in your version of Office."); //c
     }
+    // Assign event handlers and other initialization logic.
+    document.getElementById("Submit").onclick = UseTexte;
+    document.getElementById("Try").onclick = Replace_by_Maj;
+    document.getElementById("Highlight").onclick = Highlight;
+    document.getElementById("HighlightKW").onclick = Highlight_All_Key_Word;
+    document.getElementById("sideload-msg").style.display = "none";
+    document.getElementById("app-body").style.display = "flex";
+  }
 });
 
 function UseTexte() {
-    Word.run(function (context) {
-        var docBody = context.document.body;        
-        const wordFALC = document.getElementById("txtFalc").value.toString();
-        docBody.insertParagraph(wordFALC.replaceAll("\n", " ") + " => Transfert vers l'IA", "Start");
-        return context.sync();
-    }).catch(function (error) {
-        console.log("Error: " + error);
-        if (error instanceof OfficeExtension.Error) {
-            console.log("Debug info: " + JSON.stringify(error.debugInfo));
-        }
-    });
+  Word.run(function (context) {
+    var docBody = context.document.body;
+    const wordFALC = document.getElementById("txtFalc").value.toString();
+    docBody.insertParagraph(wordFALC.replaceAll("\n", " ") + " => Transfert vers l'IA", "Start");
+    return context.sync();
+  }).catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
 function Replace_by_Maj() {
-    Word.run(function (context) {
-        var paragraphs = context.document.getSelection().paragraphs;
-        paragraphs.load();
-        return context.sync().then(function () {
-            for (let i = 0; i < paragraphs.items.length; i++) {
-                paragraphs.items[i].insertText(paragraphs.items[i].text.toUpperCase(),
-                    "Replace");
-            }
-            
-        }).then(context.sync);
+  Word.run(function (context) {
+    var paragraphs = context.document.getSelection().paragraphs;
+    paragraphs.load();
+    return context
+      .sync()
+      .then(function () {
+        for (let i = 0; i < paragraphs.items.length; i++) {
+          paragraphs.items[i].insertText(paragraphs.items[i].text.toUpperCase(), "Replace");
+        }
+      })
+      .then(context.sync);
+  });
+}
+
+// fonction pour test surligner
+function Highlight() {
+  Word.run(function (context) {
+    var paragraphs = context.document.getSelection().paragraphs;
+    paragraphs.load();
+    return context
+      .sync()
+      .then(function () {
+        for (let i = 0; i < paragraphs.items.length; i++) {
+          paragraphs.items[i].font.set({ highlightColor: "#FFFF00" });
+        }
+      })
+      .then(context.sync);
+  });
+}
+
+
+// fonction temporaire pour simuler que le renvoie d'une lite de mots clé par l'IA
+function AlgoIA() {
+  return ["test", "deux", "ordinateur"];
+}
+
+// fonction pour surligner un mot clé mis dans l'appel de la fonction
+function Highlight_Key_Word(kw) {
+  const IA_Key_Word = kw;
+  Word.run(function (context) {
+    context.load(context.document.body, "text");
+    return context.sync().then(function () {
+      var searchResults = context.document.body.search(IA_Key_Word, {
+        ignorePunct: true,
+        matchCase: false,
+        matchWholeWord: true,
+      });
+
+      context.load(searchResults, "font");
+
+      return context.sync().then(function () {
+        for (var i = 0; i < searchResults.items.length; i++) {
+          searchResults.items[i].font.highlightColor = "#FFFF00";
+        }
+
+        return context.sync();
+      });
     });
+  }).catch(function (error) {
+    console.log("Error: " + JSON.stringify(error));
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
+}
+
+// fonction pour surligner tous les mots clés d'une liste dans un document word
+function Highlight_All_Key_Word() {
+  // Liste des mots clés renvoyée par l'IA
+  const IA_Key_Word = AlgoIA();
+  for (let index = 0; index < IA_Key_Word.length; index++) {
+    Highlight_Key_Word(IA_Key_Word[index]);
+  }
 }
