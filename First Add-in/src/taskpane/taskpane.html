@@ -37,22 +37,22 @@
 
 
         <!-- Création de la zone de texte -->
-
+        <!--
         <label for="txtFalc"></label>
         <textarea id="txtFalc" name="txtFalc"
                   rows="5" cols="40">Entrer votre texte ici
         </textarea>
-
-        <!-- Création du bouton -->
-
+        <button class="bouton" id="Submit"><span>Générer Images</span></button>
+        -->
+ 
         <table>
             <tr>
-                <td><button class="bouton" id="Submit"><span>Générer Images</span></button></td>
+                <td><button class="bouton" id="DispIm"><span>Ajouter image</span></button></td>
                 <td><button class="bouton" id="Try"><span>UpperCase</span></button></td>
             </tr>
             <tr>
-                <td><button class="bouton" id="Highlight"><span>Highlight</span></button></td>
-                <td><button class="bouton" id="HighlightKW"><span>HighlightKW</span></button></td>
+                <td><button class="bouton" id="HighlightKW"><span>Highlight KW</span></button></td>
+                <td><button class="bouton" id="UnHighlightKW"><span>UnHighlight KW</span></button></td>
             </tr>
             <tr>
                 <td><button class="bouton" id="Key"><span>keyword</span></button></td>
@@ -69,83 +69,79 @@
 
         &nbsp;&nbsp; <!-- ajouter un espace -->
 
+        <div id="zone_image"></div>
+
+
         <!-- Création de la gallerie -->
-
-        <div class="myGallery">
-            <!--
-
-
-        <div class="item">
-            <img src="https://www.sclera.be/resources/pictos/administratie.png" />
-            <span class="caption">ordinateur</span>
-        </div>
-        <div class="item">
-            <img src="https://www.sclera.be/resources/pictos/agenda.png" />
-            <span class="caption">agenda</span>
-        </div>
-        <div class="item">
-            <img src="https://www.sclera.be/resources/pictos/lucifer.png" />
-            <span class="caption">allumette</span>
-        </div>
-        <div class="item">
-            <img src="https://www.sclera.be/resources/pictos/kaars.png" />
-            <span class="caption">bougie</span>
-        </div>
-        <div class="item">
-            <img src="https://www.sclera.be/resources/pictos/tandenborstel.png" />
-            <span class="caption">brosse à dents</span>
-        </div>
-        <div class="item">
-            <img src="https://www.sclera.be/resources/pictos/keukenmes%20groot.png" />
-            <span class="caption">couteau</span>
-        </div>
-        <div class="item">
-            <img src="https://www.sclera.be/resources/pictos/lepel.png" />
-            <span class="caption">cuillère</span>
-        </div>
-        <div class="item">
-            <img src="https://www.sclera.be/resources/pictos/kaarten.png" />
-            <span class="caption">jeu de cartes</span>
-        </div>
-        <div class="item">
-            <img src="https://www.sclera.be/resources/pictos/wasmachine.png" />
-            <span class="caption">machine à laver</span>
-        </div>
-        <div class="item">
-            <img src="https://www.sclera.be/resources/pictos/hamer.png" />
-            <span class="caption">marteau</span>
-        </div>
-        <div class="item">
-            <img src="https://www.sclera.be/resources/pictos/computer%20muis%202.png" />
-            <span class="caption">souris</span>
-        </div>
-        <div class="item">
-            <img src="https://www.sclera.be/resources/pictos/bic.png" />
-            <span class="caption">stylo</span>
-        </div>
-        <div class="item">
-            <img src="https://www.sclera.be/resources/pictos/doos%20karton.png" />
-            <span class="caption">carton</span>
-        </div>
-        <div class="item">
-            <img src="https://www.sclera.be/resources/pictos/sleutel%20rond.png" />
-            <span class="caption">clé</span>
-        </div>
-        <div class="item">
-            <img src="https://www.sclera.be/resources/pictos/bouwen%202.png" />
-            <span class="caption">construire</span>
-        </div> -->
-            <div class="item">
-                <img src="https://www.sclera.be/resources/pictos/dobbelstenen.png" width=150 height=150 />
-                <span class="caption">dés</span>
-            </div>
-        </div>
+        <!--
+    <div class="myGallery">
+        <!--
 
 
-
-
-
-
+    <div class="item">
+        <img src="https://www.sclera.be/resources/pictos/administratie.png" />
+        <span class="caption">ordinateur</span>
+    </div>
+    <div class="item">
+        <img src="https://www.sclera.be/resources/pictos/agenda.png" />
+        <span class="caption">agenda</span>
+    </div>
+    <div class="item">
+        <img src="https://www.sclera.be/resources/pictos/lucifer.png" />
+        <span class="caption">allumette</span>
+    </div>
+    <div class="item">
+        <img src="https://www.sclera.be/resources/pictos/kaars.png" />
+        <span class="caption">bougie</span>
+    </div>
+    <div class="item">
+        <img src="https://www.sclera.be/resources/pictos/tandenborstel.png" />
+        <span class="caption">brosse à dents</span>
+    </div>
+    <div class="item">
+        <img src="https://www.sclera.be/resources/pictos/keukenmes%20groot.png" />
+        <span class="caption">couteau</span>
+    </div>
+    <div class="item">
+        <img src="https://www.sclera.be/resources/pictos/lepel.png" />
+        <span class="caption">cuillère</span>
+    </div>
+    <div class="item">
+        <img src="https://www.sclera.be/resources/pictos/kaarten.png" />
+        <span class="caption">jeu de cartes</span>
+    </div>
+    <div class="item">
+        <img src="https://www.sclera.be/resources/pictos/wasmachine.png" />
+        <span class="caption">machine à laver</span>
+    </div>
+    <div class="item">
+        <img src="https://www.sclera.be/resources/pictos/hamer.png" />
+        <span class="caption">marteau</span>
+    </div>
+    <div class="item">
+        <img src="https://www.sclera.be/resources/pictos/computer%20muis%202.png" />
+        <span class="caption">souris</span>
+    </div>
+    <div class="item">
+        <img src="https://www.sclera.be/resources/pictos/bic.png" />
+        <span class="caption">stylo</span>
+    </div>
+    <div class="item">
+        <img src="https://www.sclera.be/resources/pictos/doos%20karton.png" />
+        <span class="caption">carton</span>
+    </div>
+    <div class="item">
+        <img src="https://www.sclera.be/resources/pictos/sleutel%20rond.png" />
+        <span class="caption">clé</span>
+    </div>
+    <div class="item">
+        <img src="https://www.sclera.be/resources/pictos/bouwen%202.png" />
+        <span class="caption">construire</span>
+    </div>
+    <div class="item">
+        <img src="https://www.sclera.be/resources/pictos/dobbelstenen.png" width=150 height=150 />
+        <span class="caption">dés</span>
+    </div>-->
     </main>
 </body>
 
