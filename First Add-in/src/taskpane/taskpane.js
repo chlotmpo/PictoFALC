@@ -17,10 +17,13 @@ Office.onReady((info) => {
       Console.log("Sorry. The tutorial add-in uses Word.js APIs that are not available in your version of Office."); //c
     }
     // Assign event handlers and other initialization logic.
-    document.getElementById("Submit").onclick = UseTexte;
+    //document.getElementById("Submit").onclick = UseTexte;
     document.getElementById("Try").onclick = Replace_by_Maj;
     document.getElementById("Highlight").onclick = Highlight;
     document.getElementById("HighlightKW").onclick = Highlight_All_Key_Word;
+    document.getElementById("UnHighlightKW").onclick = UnHighlight_All_Key_Word;
+    document.getElementById("DispIm").onclick = displayImageButton;
+
     document.getElementById("sideload-msg").style.display = "none";
     document.getElementById("app-body").style.display = "flex";
   }
@@ -71,14 +74,13 @@ function Highlight() {
   });
 }
 
-
 // fonction temporaire pour simuler que le renvoie d'une lite de mots clé par l'IA
 function AlgoIA() {
   return ["test", "deux", "ordinateur"];
 }
 
 // fonction pour surligner un mot clé mis dans l'appel de la fonction
-function Highlight_Key_Word(kw) {
+function Highlight_Key_Word(kw, colors) {
   const IA_Key_Word = kw;
   Word.run(function (context) {
     context.load(context.document.body, "text");
@@ -93,7 +95,7 @@ function Highlight_Key_Word(kw) {
 
       return context.sync().then(function () {
         for (var i = 0; i < searchResults.items.length; i++) {
-          searchResults.items[i].font.highlightColor = "#FFFF00";
+          searchResults.items[i].font.highlightColor = colors;
         }
 
         return context.sync();
@@ -112,6 +114,54 @@ function Highlight_All_Key_Word() {
   // Liste des mots clés renvoyée par l'IA
   const IA_Key_Word = AlgoIA();
   for (let index = 0; index < IA_Key_Word.length; index++) {
-    Highlight_Key_Word(IA_Key_Word[index]);
+    Highlight_Key_Word(IA_Key_Word[index], "#FFFF00");
   }
+}
+
+// fonction pour désurligner tous les mots clés d'une liste dans un document word
+function UnHighlight_All_Key_Word() {
+  // Liste des mots clés renvoyée par l'IA
+  const IA_Key_Word = AlgoIA();
+  for (let index = 0; index < IA_Key_Word.length; index++) {
+    Highlight_Key_Word(IA_Key_Word[index], "#FFFFFF");
+  }
+}
+
+// function pour ajouter une image dans l'add-in partir d'un url
+
+function LienIA() {
+  return [
+    "https://www.sclera.be/resources/pictos/administratie.png",
+    "https://www.sclera.be/resources/pictos/agenda.png",
+    "https://www.sclera.be/resources/pictos/tandenborstel.png",
+    "https://www.sclera.be/resources/pictos/lepel.png",
+  ];
+}
+
+// fonction pour afficher des images à partir d'une liste de lien avec le bouton pour les insérer
+function displayImageButton() {
+  const lien = LienIA();
+  for (let index = 0; index < lien.length; index++) {
+    var img = document.createElement("img");
+    img.src = lien[index];
+    var src = document.getElementById("zone_image");
+
+    let btn2 = document.createElement("button");
+    btn2.innerHTML = "Insérer";
+    btn2.className = "bouton2";
+    btn2.onclick = function () {
+      InsertImageHtml(lien[index]);
+    };
+    src.appendChild(img);
+    src.appendChild(btn2);
+  }
+}
+
+function InsertImageHtml(src) {
+  var imgHTML = "<img " + "    src='" + src + "'" + " alt ='apps for Office image1' />       ";
+  Office.context.document.setSelectedDataAsync(imgHTML, { coercionType: "html" }, function (asyncResult) {
+    if (asyncResult.status == "failed") {
+      write("Error: " + asyncResult.error.message);
+    }
+  });
 }

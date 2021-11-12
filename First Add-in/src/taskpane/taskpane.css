@@ -17,7 +17,7 @@ ul {
 }
 
 
-/* Entête de l'Add-In */
+/* Entï¿½te de l'Add-In */
 
 
 .ms-welcome__header {
@@ -103,7 +103,7 @@ label {
     }
 
 
-/* Green */
+/* Customization des boutons  */
 .bouton {
     background-color: #3604aa;
     border: none;
@@ -126,7 +126,7 @@ label {
     }
 
 
-.button span {
+.bouton span {
     cursor: pointer;
     display: inline-block;
     position: relative;
@@ -147,6 +147,60 @@ label {
 }
 
     .bouton:hover span:after {
+        opacity: 1;
+        right: 0;
+    }
+
+
+
+
+
+
+    /* Customization des boutons2  */
+.bouton2 {
+    background-color: #048876;
+    border: none;
+    border-radius: 4px;
+    width: 100px;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    margin: 10px 20px;
+
+}
+
+    .bouton2 span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+    }
+
+
+.bouton2 span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.bouton2 span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -10px;
+    transition: 0.5s;
+}
+
+.bouton2:hover span {
+    padding-right: 10px;
+}
+
+    .bouton2:hover span:after {
         opacity: 1;
         right: 0;
     }
