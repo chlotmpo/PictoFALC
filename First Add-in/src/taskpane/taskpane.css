@@ -17,6 +17,7 @@ ul {
 }
 
 
+
 /* Entête de l'Add-In */
 
 
@@ -106,6 +107,7 @@ label {
 /* Green */
 .bouton {
     background-color: #3604aa;
+    
     border: none;
     border-radius: 4px;
     width: 100px;
@@ -115,7 +117,7 @@ label {
     text-decoration: none;
     display: inline-block;
     font-size: 10px;
-    margin: 10px 200px;
+    margin: 10px 10px;
 }
 
     .bouton span {
@@ -142,8 +144,12 @@ label {
     transition: 0.5s;
 }
 
+.bouton:hover {
+    background: #383;
+}
 .bouton:hover span {
     padding-right: 10px;
+    
 }
 
     .bouton:hover span:after {

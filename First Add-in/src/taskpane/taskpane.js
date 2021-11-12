@@ -18,12 +18,35 @@ Office.onReady((info) => {
     }
     // Assign event handlers and other initialization logic.
     document.getElementById("Submit").onclick = UseTexte;
+    
     document.getElementById("Try").onclick = Replace_by_Maj;
     document.getElementById("Highlight").onclick = Highlight;
     document.getElementById("HighlightKW").onclick = Highlight_All_Key_Word;
     document.getElementById("sideload-msg").style.display = "none";
-    document.getElementById("app-body").style.display = "flex";
+      document.getElementById("app-body").style.display = "flex";
+      
   }
+});
+
+let KeyWord = document.getElementById("Key");
+let ResetKeyWord = document.getElementById("ResetKeyWord");
+let table = document.getElementById("Output");
+KeyWord.addEventListener("click", () => {
+
+    let liste = ["Manger", "Boire", "Repas"];
+    table.innerHTML = `<tr><th>Liste de mots clés :</th></tr>`
+    for (let i = 0; i < liste.length; i++) {
+        let template = `
+        <tr>
+            <td>${liste[i]}</td>
+        </tr>`;
+        table.innerHTML += template;
+    }
+
+});
+ResetKeyWord.addEventListener("click", () => {
+    table.innerHTML = `<tr><th>Liste de mots clés :</th></tr>
+                        <tr><td>...</td></tr>`;
 });
 
 function UseTexte() {
