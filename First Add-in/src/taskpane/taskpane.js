@@ -17,23 +17,34 @@ Office.onReady((info) => {
             Console.log("Sorry. The tutorial add-in uses Word.js APIs that are not available in your version of Office."); //c
         }
 
-        document.getElementById("Try").onclick = Replace_by_Maj;
-        document.getElementById("HighlightKW").onclick = Highlight_All_Key_Word;
-        document.getElementById("UnHighlightKW").onclick = UnHighlight_All_Key_Word;
+        document.getElementById("Start").onclick = StartProgram;
+        document.getElementById("Submit").onclick = UseTexte;
+        /*
+        document.getElementById("HighlightKW").onclick = Highlight_All_Key_Word(liste);
+        document.getElementById("UnHighlightKW").onclick = UnHighlight_All_Key_Word(liste);
         document.getElementById("DispIm").onclick = displayImageButton;
-
+        */
         document.getElementById("sideload-msg").style.display = "none";
         document.getElementById("app-body").style.display = "flex";
 
     }
 });
 
-let KeyWord = document.getElementById("Key");
-let ResetKeyWord = document.getElementById("ResetKeyWord");
+//let KeyWord = document.getElementById("Key");
+let Reset = document.getElementById("Reset");
 let table = document.getElementById("Output");
+
+let liste = [];
+let images = {
+    "mange": "https://www.sclera.be/resources/pictos/administratie.png",
+    "bois": "https://www.sclera.be/resources/pictos/agenda.png",
+    "repas": "https://www.sclera.be/resources/pictos/tandenborstel.png"
+}
+
+/*
 KeyWord.addEventListener("click", () => {
 
-    let liste = ["Manger", "Boire", "Repas"];
+    let liste = ["mange", "bois", "repas"];
     table.innerHTML = `<tr><th>Liste de mots clés :</th></tr>`
     for (let i = 0; i < liste.length; i++) {
         let template = `
@@ -43,11 +54,13 @@ KeyWord.addEventListener("click", () => {
         table.innerHTML += template;
     }
 
-});
+});*/
 
-ResetKeyWord.addEventListener("click", () => {
+Reset.addEventListener("click", () => {
     table.innerHTML = `<tr><th>Liste de mots clés :</th></tr>
                         <tr><td>...</td></tr>`;
+    UnHighlight_All_Key_Word(liste);
+    liste = [];
 });
 
 
@@ -59,6 +72,8 @@ ResetKeyWord.addEventListener("click", () => {
     let val = process.value;
     table.innerHTML = `<tr><th>${val}</th></tr>`;
 })*/
+
+/*
 function UseTexte() {
     Word.run(function (context) {
         var docBody = context.document.body;
@@ -71,8 +86,93 @@ function UseTexte() {
             console.log("Debug info: " + JSON.stringify(error.debugInfo));
         }
     });
+}*/
+
+function UseTexte() {
+    const wordFALC = document.getElementById("txtFalc").value.toString();
+    liste.push(wordFALC);
+    Highlight_Key_Word(wordFALC, "#FFFF00");
+    let img = RechercheImg([wordFALC]);
+    let template = `
+                            <tr>
+                                <td>${wordFALC}</td>
+                            </tr>
+                            <tr>
+                                <td><img src=${img[0]} alt="no image found" border=3 height=100 width=100></img><td>
+                                <td><button class = "bouton2" onclick="InsertImageHtml('${img[0]}')"><span>insertion</span></button></td>
+                            </tr>`;
+    table.innerHTML += template;
+
+    
 }
 
+
+function StartProgram() {
+    Word.run(function (context) {
+        var paragraphs = context.document.getSelection().paragraphs;
+        paragraphs.load();
+        let value = "";
+        return context
+            .sync()
+            .then(function () {
+                for (let i = 0; i < paragraphs.items.length; i++) {
+                    value += paragraphs.items[i].text;
+                }
+                let a = RechercheMots(value)
+                if (liste == null) {
+                    liste = a
+                }
+                else {
+                    liste = liste.concat(a);
+                }                
+                //liste = ["mange", "bois", "repas"];
+                //liste.concat(value);
+                if (value != '') {
+                    Highlight_All_Key_Word(liste);
+                    let img = RechercheImg(liste);
+                    table.innerHTML = `<tr><th>Liste de mots clés :</th></tr>`
+                    for (let i = 0; i < liste.length; i++) {
+                        let template = `
+                            <tr>
+                                <td>${liste[i]}</td>
+                            </tr>
+                            <tr>
+                                <td><img src=${img[i]} alt="no image found" border=3 height=100 width=100></img><td>
+                                <td><button class = "bouton2" onclick="InsertImageHtml('${img[i]}')"><span>insertion</span></button></td>
+                            </tr>`;
+                        table.innerHTML += template;
+                    }
+                }
+            })
+            .then(context.sync);
+    });
+}
+
+
+function RechercheMots(value) {
+    let comparaison = ["mange", 'bois', "repas","test"];
+    let temp = []
+    for (let i = 0; i < comparaison.length; i++) {
+        if (value.includes(comparaison[i])) {
+            temp.push(comparaison[i]);
+        }
+    }
+    return temp;
+}
+function RechercheImg(value) {
+    let img = []
+    for (let i = 0; i < value.length; i++) {
+        if (value[i] in images) {
+            img.push(images[value[i]])
+        }
+        else {
+            img.push("nothing")
+        }
+    }
+    return img;
+}
+
+/*
 function Replace_by_Maj() {
     Word.run(function (context) {
         var paragraphs = context.document.getSelection().paragraphs;
@@ -86,7 +186,7 @@ function Replace_by_Maj() {
             })
             .then(context.sync);
     });
-}
+}*/
 
 // fonction pour test surligner
 function Highlight() {
@@ -118,7 +218,7 @@ function Highlight_Key_Word(kw, colors) {
             var searchResults = context.document.body.search(IA_Key_Word, {
                 ignorePunct: true,
                 matchCase: false,
-                matchWholeWord: true,
+                matchWholeWord: false,
             });
 
             context.load(searchResults, "font");
@@ -140,18 +240,20 @@ function Highlight_Key_Word(kw, colors) {
 }
 
 // fonction pour surligner tous les mots clés d'une liste dans un document word
-function Highlight_All_Key_Word() {
+function Highlight_All_Key_Word(liste) {
     // Liste des mots clés renvoyée par l'IA
-    const IA_Key_Word = AlgoIA();
+    //const IA_Key_Word = AlgoIA();
+    const IA_Key_Word = liste
     for (let index = 0; index < IA_Key_Word.length; index++) {
         Highlight_Key_Word(IA_Key_Word[index], "#FFFF00");
     }
 }
 
 // fonction pour désurligner tous les mots clés d'une liste dans un document word
-function UnHighlight_All_Key_Word() {
+function UnHighlight_All_Key_Word(liste) {
     // Liste des mots clés renvoyée par l'IA
-    const IA_Key_Word = AlgoIA();
+    //const IA_Key_Word = AlgoIA();
+    const IA_Key_Word = liste
     for (let index = 0; index < IA_Key_Word.length; index++) {
         Highlight_Key_Word(IA_Key_Word[index], "#FFFFFF");
     }
