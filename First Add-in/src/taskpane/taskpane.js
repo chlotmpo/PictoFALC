@@ -103,33 +103,36 @@ function UseTexte() {
 // }
 
 function UseTexte() {
-  const wordFALC = document.getElementById("txtFalc").value.toString();
-  liste.push(wordFALC);
-  Highlight_Key_Word(wordFALC, "#FFFF00");
-  let img = RechercheImg([wordFALC]);
+    const wordFALC = document.getElementById("txtFalc").value.toString();
+    if (liste.includes(wordFALC) == false) {
+        liste.push(wordFALC);
+        Highlight_Key_Word(wordFALC, "#FFFF00");
+        let img = RechercheImg([wordFALC]);
 
-  var DOM_img = document.createElement("img");
-  DOM_img.src = img[0];
-  DOM_img.style.width = "150px";
-  DOM_img.style.height = "150px";
-  let button = document.createElement("button");
-  button.innerHTML = "Insert";
-  button.className = "bouton2";
-  button.onclick = function () {
-    InsertImageHtml(img[0]);
-  };
-  let output = document.getElementById("Output");
-  output.insertAdjacentHTML("beforeend", liste[liste.length - 1]);
-  //
-  const tr = document.createElement("tr");
-  const td = document.createElement("td");
-  const td2 = document.createElement("td");
-  td.appendChild(DOM_img);
-  td2.appendChild(button);
-  tr.appendChild(td);
-  tr.appendChild(td2);
+        var DOM_img = document.createElement("img");
+        DOM_img.src = img[0];
+        DOM_img.style.width = "75px";
+        DOM_img.style.height = "75px";
+        let button = document.createElement("button");
+        button.innerHTML = "insert";
+        button.className = "bouton2";
+        button.onclick = function () {
+            InsertImageHtml(img[0]);
+        };
+        let output = document.getElementById("Output");
+        output.insertAdjacentHTML("beforeend", liste[liste.length - 1]);
+        //
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        const td2 = document.createElement("td");
+        td.appendChild(DOM_img);
+        td2.appendChild(button);
+        tr.appendChild(td);
+        tr.appendChild(td2);
 
-  output.appendChild(tr);
+        output.appendChild(tr);
+    }
+    
 }
 
 function StartProgram() {
@@ -149,8 +152,7 @@ function StartProgram() {
         } else {
           liste = liste.concat(a);
         }
-        //liste = ["mange", "bois", "repas"];
-        //liste.concat(value);
+        liste = [...new Set(liste)];
         if (value != "") {
           // ancien code en fin de fichier
           Highlight_All_Key_Word(liste);
@@ -158,9 +160,10 @@ function StartProgram() {
           table.innerHTML = `<tr><th>Liste de mots clés :</th></tr>`;
           for (let i = 0; i < liste.length; i++) {
             var DOM_img = document.createElement("img");
-            DOM_img.src = img[i];
-            DOM_img.style.width = "150px";
-            DOM_img.style.height = "150px";
+              DOM_img.src = img[i];
+              DOM_img.alt = "No image were found...";
+            DOM_img.style.width = "75px";
+            DOM_img.style.height = "75px";
             let button = document.createElement("button");
             button.innerHTML = "Insert";
             button.className = "bouton2";
@@ -202,7 +205,7 @@ function RechercheImg(value) {
     if (value[i] in images) {
       img.push(images[value[i]]);
     } else {
-      img.push("nothing");
+        img.push("https://pleinjour.fr/wp-content/plugins/lightbox/images/No-image-found.jpg");
     }
   }
   return img;

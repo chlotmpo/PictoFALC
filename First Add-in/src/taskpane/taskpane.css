@@ -143,9 +143,9 @@ label {
     transition: 0.5s;
 }
 
-.bouton:hover {
-    background: #383;
-}
+    .bouton:hover {
+        background: #1f618d;
+    }
 .bouton:hover span {
     padding-right: 10px;
     
@@ -201,9 +201,12 @@ label {
     transition: 0.5s;
 }
 
-.bouton2:hover span {
-    padding-right: 10px;
-}
+    .bouton2:hover span {
+        padding-right: 10px;
+    }
+    .bouton2:hover {
+        background-color: #117a65;
+    }
 
     .bouton2:hover span:after {
         opacity: 1;
