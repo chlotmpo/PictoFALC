@@ -1,3 +1,6 @@
+
+
+
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
  * See LICENSE in the project root for license information.
@@ -8,17 +11,18 @@ import "../../assets/icon-16.png";
 import "../../assets/icon-32.png";
 import "../../assets/icon-80.png";
 
+
 /* global document, Office, Word */
 
 Office.onReady((info) => {
   if (info.host === Office.HostType.Word) {
     // Determine if the user's version of Office supports all the Office.js APIs that are used in the tutorial.
     if (!Office.context.requirements.isSetSupported("WordApi", "1.3")) {
-      Console.log("Sorry. The tutorial add-in uses Word.js APIs that are not available in your version of Office."); //c
+      Console.log("Sorry. The tutorial add-in uses Word.js APIs that are not available in your version of Office."); 
     }
-
     document.getElementById("Start").onclick = StartProgram;
     document.getElementById("Submit").onclick = UseTexte;
+
     /*
         document.getElementById("HighlightKW").onclick = Highlight_All_Key_Word(liste);
         document.getElementById("UnHighlightKW").onclick = UnHighlight_All_Key_Word(liste);
@@ -40,36 +44,12 @@ let images = {
   repas: "https://www.sclera.be/resources/pictos/tandenborstel.png",
 };
 
-/*
-KeyWord.addEventListener("click", () => {
-
-    let liste = ["mange", "bois", "repas"];
-    table.innerHTML = `<tr><th>Liste de mots clés :</th></tr>`
-    for (let i = 0; i < liste.length; i++) {
-        let template = `
-        <tr>
-            <td>${liste[i]}</td>
-        </tr>`;
-        table.innerHTML += template;
-    }
-
-});*/
-
 Reset.addEventListener("click", () => {
   table.innerHTML = `<tr><th>Liste de mots clés :</th></tr>
                         <tr><td>...</td></tr>`;
   UnHighlight_All_Key_Word(liste);
   liste = [];
 });
-
-// ne fonctionne pas
-/*
-ResetKeyWord.addEventListener("click", () => {
-    //const spawn = require().spawn;
-    const process = spawn('Python', ["./HelloWorld.py", "nicolas"]);
-    let val = process.value;
-    table.innerHTML = `<tr><th>${val}</th></tr>`;
-})*/
 
 /*
 function UseTexte() {
@@ -102,37 +82,40 @@ function UseTexte() {
 //   table.innerHTML += template;
 // }
 
+
+
+
 function UseTexte() {
-    const wordFALC = document.getElementById("txtFalc").value.toString();
-    if (liste.includes(wordFALC) == false) {
-        liste.push(wordFALC);
-        Highlight_Key_Word(wordFALC, "#FFFF00");
-        let img = RechercheImg([wordFALC]);
 
-        var DOM_img = document.createElement("img");
-        DOM_img.src = img[0];
-        DOM_img.style.width = "75px";
-        DOM_img.style.height = "75px";
-        let button = document.createElement("button");
-        button.innerHTML = "insert";
-        button.className = "bouton2";
-        button.onclick = function () {
-            InsertImageHtml(img[0]);
-        };
-        let output = document.getElementById("Output");
-        output.insertAdjacentHTML("beforeend", liste[liste.length - 1]);
-        //
-        const tr = document.createElement("tr");
-        const td = document.createElement("td");
-        const td2 = document.createElement("td");
-        td.appendChild(DOM_img);
-        td2.appendChild(button);
-        tr.appendChild(td);
-        tr.appendChild(td2);
+  const wordFALC = document.getElementById("txtFalc").value.toString();
+  if (liste.includes(wordFALC) == false) {
+    liste.push(wordFALC);
+    Highlight_Key_Word(wordFALC, "#FFFF00");
+    let img = RechercheImg([wordFALC]);
 
-        output.appendChild(tr);
-    }
-    
+    var DOM_img = document.createElement("img");
+    DOM_img.src = img[0];
+    DOM_img.style.width = "75px";
+    DOM_img.style.height = "75px";
+    let button = document.createElement("button");
+    button.innerHTML = "insert";
+    button.className = "bouton2";
+    button.onclick = function () {
+      InsertImageHtml(img[0]);
+    };
+    let output = document.getElementById("Output");
+    output.insertAdjacentHTML("beforeend", liste[liste.length - 1]);
+    //
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    const td2 = document.createElement("td");
+    td.appendChild(DOM_img);
+    td2.appendChild(button);
+    tr.appendChild(td);
+    tr.appendChild(td2);
+
+    output.appendChild(tr);
+  }
 }
 
 function StartProgram() {
@@ -160,8 +143,8 @@ function StartProgram() {
           table.innerHTML = `<tr><th>Liste de mots clés :</th></tr>`;
           for (let i = 0; i < liste.length; i++) {
             var DOM_img = document.createElement("img");
-              DOM_img.src = img[i];
-              DOM_img.alt = "No image were found...";
+            DOM_img.src = img[i];
+            DOM_img.alt = "No image were found...";
             DOM_img.style.width = "75px";
             DOM_img.style.height = "75px";
             let button = document.createElement("button");
@@ -172,7 +155,6 @@ function StartProgram() {
             };
             let output = document.getElementById("Output");
             output.insertAdjacentHTML("beforeend", liste[i]);
-            //
             const tr = document.createElement("tr");
             const td = document.createElement("td");
             const td2 = document.createElement("td");
@@ -205,27 +187,11 @@ function RechercheImg(value) {
     if (value[i] in images) {
       img.push(images[value[i]]);
     } else {
-        img.push("https://pleinjour.fr/wp-content/plugins/lightbox/images/No-image-found.jpg");
+      img.push("https://pleinjour.fr/wp-content/plugins/lightbox/images/No-image-found.jpg");
     }
   }
   return img;
 }
-
-/*
-function Replace_by_Maj() {
-    Word.run(function (context) {
-        var paragraphs = context.document.getSelection().paragraphs;
-        paragraphs.load();
-        return context
-            .sync()
-            .then(function () {
-                for (let i = 0; i < paragraphs.items.length; i++) {
-                    paragraphs.items[i].insertText(paragraphs.items[i].text.toUpperCase(), "Replace");
-                }
-            })
-            .then(context.sync);
-    });
-}*/
 
 // fonction pour test surligner
 function Highlight() {
@@ -340,21 +306,3 @@ function InsertImageHtml(src) {
     }
   });
 }
-
-// ancien code non fonctionnel pour insérer les images
-
-// if (value != '') {
-//   Highlight_All_Key_Word(liste);
-//   let img = RechercheImg(liste);
-//   table.innerHTML = `<tr><th>Liste de mots clés :</th></tr>`
-//   for (let i = 0; i < liste.length; i++) {
-//       let template = `
-//           <tr>
-//               <td>${liste[i]}</td>
-//           </tr>
-//           <tr>
-//               <td><img src=${img[i]} alt="no image found" border=3 height=100 width=100></img><td>
-//               <td><button class = "bouton2" onclick="InsertImageHtml('${img[i]}')"><span>insertion</span></button></td>
-//           </tr>`;
-//       table.innerHTML += template;
-//   }
