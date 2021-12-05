@@ -22,6 +22,9 @@ Office.onReady((info) => {
     }
     document.getElementById("Start").onclick = StartProgram;
     document.getElementById("Submit").onclick = UseTexte;
+    document.getElementById("Fetch").onclick=PYtoJS;
+    document.getElementById("Sub").onclick=JStoPY;
+
 
     /*
         document.getElementById("HighlightKW").onclick = Highlight_All_Key_Word(liste);
@@ -305,4 +308,26 @@ function InsertImageHtml(src) {
       write("Error: " + asyncResult.error.message);
     }
   });
+}
+
+function PYtoJS() {
+  let url = "http://localhost:8989/PYtoJS";
+  return new Promise(function (resolve, reject) {
+    fetch(url).then(response => 
+      response.json().then(data => ({
+          data: data,
+      })
+      ).then(response => {
+      document.getElementById("Fetch").innerHTML =response.data
+    }));
+  })
+}
+
+function JStoPY() {
+  const url= 'http://localhost:8989/JStoPY' 
+  return new Promise(function(resolve, reject) { 
+    var req = new XMLHttpRequest();
+    req.open('post', url); 
+    req.send(JSON.stringify("Ce texte provient de Javascript"))
+})
 }
