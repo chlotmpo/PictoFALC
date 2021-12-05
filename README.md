@@ -39,5 +39,5 @@ Ce dossier contient les 3 textes FALC qui nous serviront d'exemple, ces même te
 Ce fichier est un notebook jupyter qui contient les codes de test des différents librairies permettant de comparer la distance, similarité de deux mots
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#### Lien JavaScript - MySQL.docx 
+### Lien JavaScript - MySQL.docx 
 Ce document contient des liens-tutoriels pour obtenir une connection entre JavaScript et MySQL. Différentes méthodes sont détaillées et expliquées avec des exemples de code
