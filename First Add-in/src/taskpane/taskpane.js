@@ -21,7 +21,8 @@ Office.onReady((info) => {
       Console.log("Sorry. The tutorial add-in uses Word.js APIs that are not available in your version of Office."); 
     }
     document.getElementById("Start").onclick = StartProgram;
-    document.getElementById("Submit").onclick = UseTexte;
+      document.getElementById("Submit").onclick = UseTexte;
+      document.getElementById("sddsd").onclick = JStoPY;
 
     /*
         document.getElementById("HighlightKW").onclick = Highlight_All_Key_Word(liste);
@@ -51,39 +52,15 @@ Reset.addEventListener("click", () => {
   liste = [];
 });
 
-/*
-function UseTexte() {
-    Word.run(function (context) {
-        var docBody = context.document.body;
-        const wordFALC = document.getElementById("txtFalc").value.toString();
-        docBody.insertParagraph(wordFALC.replaceAll("\n", " ") + " => Transfert vers l'IA", "Start");
-        return context.sync();
-    }).catch(function (error) {
-        console.log("Error: " + error);
-        if (error instanceof OfficeExtension.Error) {
-            console.log("Debug info: " + JSON.stringify(error.debugInfo));
-        }
-    });
-}*/
-
-// function UseTexte() {
-//   const wordFALC = document.getElementById("txtFalc").value.toString();
-//   liste.push(wordFALC);
-//   Highlight_Key_Word(wordFALC, "#FFFF00");
-//   let img = RechercheImg([wordFALC]);
-//   let template = `
-//                             <tr>
-//                                 <td>${wordFALC}</td>
-//                             </tr>
-//                             <tr>
-//                                 <td><img src=${img[0]} alt="no image found" border=3 height=100 width=100></img><td>
-//                                 <td><button class = "bouton2" onclick="InsertImageHtml('${img[0]}')"><span>insertion</span></button></td>
-//                             </tr>`;
-//   table.innerHTML += template;
-// }
-
-
-
+function JStoPY() {
+    const URL = 'http://localhost:8989/JStoPY'
+    const xhr = new XMLHttpRequest();
+    document.getElementById("sddsd").innerHTML = "haha";
+    sender = JSON.stringify("ca marche mon poto")
+    xhr.open('POST', URL);
+    xhr.send(sender);
+    
+}
 
 function UseTexte() {
 

@@ -29,7 +29,7 @@ def thisRoute():
 
 def IAToJS():
     print("sélection des kw dans le txt")
-    txtFALC= information.decode('ASCII')
+    #txtFALC= information.decode('ASCII')
     #insérer le code de l'IA ici
     kw=["kw1","kw2","kw3"]
     return kw

@@ -1,3 +1,6 @@
+
+
+
 function PYtoJS() {
   const url = "http://localhost:8989/PYtoJS";
   fetch(url)
@@ -9,10 +12,11 @@ function PYtoJS() {
 }
 
 
-function JStoPY(){
+function JStoPY(texte) {
   const URL = 'http://localhost:8989/JStoPY'
-  const xhr = new XMLHttpRequest();
-  sender = JSON.stringify("Ceci est un texte en FALC provenant de JS")
+    const xhr = new XMLHttpRequest();
+    //document.getElementById("sddsd").innerHTML = "oui";
+    sender = JSON.stringify(texte)
   xhr.open('POST', URL);
   xhr.send(sender);
   }
