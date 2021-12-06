@@ -103,7 +103,8 @@ function StartProgram() {
                 }
                 liste = [...new Set(liste)];
                 */
-                liste = JStoPY(value);
+                JStoPY(value);
+                liste = PYtoJS();
                 if (value != "") {
                     // ancien code en fin de fichier
                     Highlight_All_Key_Word(liste);
@@ -292,13 +293,7 @@ function JStoPY(text) {
     const url = 'http://localhost:8989/JStoPY'
     return new Promise(function (resolve, reject) {
         var req = new XMLHttpRequest();
-        req.open(['post',"get"], url);
-        req.send(JSON.stringify(text)).then(response =>
-            response.json().then(data => ({
-                data: data,
-            })
-            ).then(response => {
-                document.getElementById("Fetch").innerHTML = response.data
-            }));
+        req.open('post', url);
+        req.send(JSON.stringify(text))
     })
 }

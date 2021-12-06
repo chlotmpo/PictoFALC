@@ -87,6 +87,7 @@ from flask import Flask, request, jsonify, after_this_request
 app = Flask(__name__)
 
 
+answer =[]
 @app.route('/PYtoJS', methods=['GET'])
 def hello():
     @after_this_request
@@ -94,7 +95,7 @@ def hello():
         response.headers.add('Access-Control-Allow-Origin', '*')
         return response
 
-    jsonResp = IAToJS()
+    jsonResp = answer
     print(jsonResp)
     return jsonify(jsonResp)
 
@@ -103,10 +104,10 @@ def thisRoute():
     global information
     information = request.data
     print("hoho")
-    extracted_words = keywords_extraction(information.decode('latin1'))
+    answer = keywords_extraction(information.decode('latin1'))
     print("lala")
-    print(extracted_words)
-    return jsonify(extracted_words)
+    print(answer)
+    return "nice"
 
 def IAToJS():
     print("sélection des kw dans le txt")
