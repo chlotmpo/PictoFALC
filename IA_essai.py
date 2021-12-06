@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Nov 22 13:07:57 2021
+Created on Mon Dec  6 13:07:25 2021
 
-@author: bruno
+@author: Nicolas Carval
 """
 
 # pip install googletrans==3.1.0a0
@@ -12,6 +12,8 @@ from googletrans import Translator
 from keybert import KeyBERT
 # pip install git+https://github.com/LIAAD/yake
 import yake
+# pip install thefuzz
+from thefuzz import fuzz
 
 # Ouvrir le fichier texte
 def open_text(filename):
@@ -53,6 +55,32 @@ def fusion_keywords_lists(l1, l2):
     fusion_list = list(set(l1 + l2)) # pour retirer les mots en double
     return fusion_list
     
+# prend la liste des mots clés et groupe les mots qui se ressemblent en sous liste
+# il y a des sous listes identiques
+def group_keywords(list_words):
+    list_words = [[word] for word in list_words]
+    for word_a in list_words:
+      for word_b in list_words: 
+        if word_a[0] != word_b[0]:
+          ratio = fuzz.partial_ratio(word_a[0], word_b[0])
+          if ratio > 65: # seuil à partir duquel on considère que 2 mots se ressemblent
+            word_a.append(word_b[0])
+    return list_words
+    
+# enlève les sous-listes en double dans la liste des listes de groupes de mots clés
+def remove_same_groups(list_words):
+    temp_list = []
+    for list1 in list_words: 
+      isinlist = False
+      for list2 in temp_list:
+        for word in list2:
+          if list1[0] == word:
+            isinlist = True
+      if isinlist == False:
+        temp_list.append(list1)
+    list_words = temp_list
+    return list_words
+
 def translate_list_to_fr(list_words):
     trans2 = Translator()
     translate_list = []
@@ -80,47 +108,31 @@ def keywords_extraction(french_text):
     extracted_words = fusion_keywords_lists(keybert_extracted_words, yake_extracted_words)
     #print(extracted_words)
     
-    return extracted_words
-
-from flask import Flask, request, jsonify, after_this_request
-
-app = Flask(__name__)
-
-
-@app.route('/PYtoJS', methods=['GET'])
-def hello():
-    @after_this_request
-    def add_header(response):
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        return response
-
-    jsonResp = IAToJS()
-    print(jsonResp)
-    return jsonify(jsonResp)
-
-@app.route('/JStoPY', methods=['GET', 'POST'])
-def thisRoute():
-    global information
-    information = request.data
-    print("hoho")
-    extracted_words = keywords_extraction(information.decode('latin1'))
-    print("lala")
+    # ON POURRAIT S'ARRETER LA!! Ici on a la liste de tous les mots clés en anglais
+    # pb et objectif : il y a des mots similaires qu'on aimerait regrouper ensemble
+    
+    # On transforme la liste de mots en liste de groupes de mots qui se ressemblent
+    extracted_words = group_keywords(extracted_words)
+    #print(extracted_words)
+    
+    # On enlève les groupes en double
+    extracted_words = remove_same_groups(extracted_words)
     print(extracted_words)
-    return jsonify(extracted_words)
-
-def IAToJS():
-    print("sélection des kw dans le txt")
-    #txtFALC= information.decode('ASCII')
-    #insérer le code de l'IA ici
-    kw=["kw1","kw2","kw3"]
-    return kw
-
-
-
-
-if __name__ == '__main__':
-    app.run(host='localhost', port=8989)
+    
+    # on traduit les mots en français
+    tr_extracted_words = translate_list_to_fr(extracted_words)
+    #print(tr_extracted_words)
+    
+    return tr_extracted_words
     
     
-    
+french_text = open_text("texte.txt")
+tr_extracted_words = keywords_extraction(french_text)
+print(tr_extracted_words)
 
+# test translate
+'''
+translator = Translator()
+translation = translator.translate("Bonjour", src='fr', dest = 'en')
+print(translation)
+'''
