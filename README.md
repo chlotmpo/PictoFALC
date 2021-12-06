@@ -26,3 +26,18 @@ tips : - créér un add-in en utilisant le Yeoman generator comme décrit dans l
 tips : -installer les librairies en utilisant les commandes en commentaire, dans le prompt d'anaconda
        -changer le path du fichier dans open() pour que ça marche
  
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### Dossier Pictogrammes 
+Ce dossier contient une multitude de sous-dossiers correspondant aux mots-clés trouvés dans les textes FALC, avec 3 pictogrammes par sous-dossier
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### Dossier Texte FALC 
+Ce dossier contient les 3 textes FALC qui nous serviront d'exemple, ces même textes avec leur mots clés surlignés, la liste des mots clés retenus avec le lien de chaque pictogramme associé et d'autres exemples donnés lors de la formation. 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### librairies_mots_similaires.ipynb
+Ce fichier est un notebook jupyter qui contient les codes de test des différents librairies permettant de comparer la distance, similarité de deux mots
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### Lien JavaScript - MySQL.docx 
+Ce document contient des liens-tutoriels pour obtenir une connection entre JavaScript et MySQL. Différentes méthodes sont détaillées et expliquées avec des exemples de code
