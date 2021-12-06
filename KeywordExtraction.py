@@ -1,5 +1,6 @@
 
 # pip install googletrans==3.1.0a0
+# pip install googletrans==4.0.0rc1
 from googletrans import Translator
 # pip install keybert
 from keybert import KeyBERT
@@ -77,9 +78,11 @@ def remove_same_groups(list_words):
 def translate_list_to_fr(list_words):
     trans2 = Translator()
     translate_list = []
+
     for group in list_words:
         temp = []
         for word in group:
+            print("here2")
             transWord = trans2.translate(word,  dest = 'fr')
             temp.append(transWord.text)
         translate_list.append(temp)
@@ -120,9 +123,12 @@ def keywords_extraction(french_text):
 french_text = open_text("texte.txt")
 tr_extracted_words = keywords_extraction(french_text)
 print(tr_extracted_words)
+
 # test translate
-"""
+'''
 translator = Translator()
-translation = translator.translate("Bonjour", src='fr')
+translation = translator.translate("Bonjour", src='fr', dest = 'en')
 print(translation)
-"""
+'''
+
+
