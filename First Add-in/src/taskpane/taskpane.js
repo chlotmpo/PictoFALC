@@ -11,9 +11,6 @@ import "../../assets/icon-16.png";
 import "../../assets/icon-32.png";
 import "../../assets/icon-80.png";
 
-//lol
-
-
 /* global document, Office, Word */
 
 Office.onReady((info) => {
@@ -26,7 +23,7 @@ Office.onReady((info) => {
 
         document.getElementById("Submit").onclick = UseTexte;
         document.getElementById("Fetch").onclick = PYtoJS;
-        document.getElementById("Sub").onclick = JStoPY("hola");
+        document.getElementById("Sub").onclick = JStoPY("");
 
         document.getElementById("sideload-msg").style.display = "none";
         document.getElementById("app-body").style.display = "flex";
@@ -106,7 +103,14 @@ function StartProgram() {
                 liste = [...new Set(liste)];
                 */
                 JStoPY(value);
-                liste = PYtoJS();
+                sleep2(100).then(() => {
+                    // Do something after the sleep!
+                PYtoJS();
+                });
+                sleep2(10000).then(() => {
+                document.getElementById("Fetch").innerHTML = liste
+
+
                 if (value != "") {
                     // ancien code en fin de fichier
                     Highlight_All_Key_Word(liste);
@@ -137,7 +141,10 @@ function StartProgram() {
                         output.appendChild(tr);
                     }
                 }
+            });
+            
             })
+            
             .then(context.sync);
     });
 }
@@ -286,8 +293,7 @@ function PYtoJS() {
                 data: data,
             })
             ).then(response => {
-                //document.getElementById("Fetch").innerHTML = response.data
-                return response.data
+                liste= response.data
             }));
     })
 }
@@ -301,3 +307,18 @@ function JStoPY(texte) {
     req.send(JSON.stringify(texte))
 })
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  async function demo() {
+    console.log('Taking a break...');
+    await sleep(2000);
+    console.log('Two seconds later, showing sleep in a loop...');
+    }
+
+function sleep2 (time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+      }
+      // Usage!
+      
