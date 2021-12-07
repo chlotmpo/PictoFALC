@@ -284,16 +284,18 @@ function PYtoJS() {
                 data: data,
             })
             ).then(response => {
-                document.getElementById("Fetch").innerHTML = response.data
+                //document.getElementById("Fetch").innerHTML = response.data
+                return response.data
             }));
     })
 }
 
-function JStoPY(text) {
-    const url = 'http://localhost:8989/JStoPY'
-    return new Promise(function (resolve, reject) {
-        var req = new XMLHttpRequest();
-        req.open('post', url);
-        req.send(JSON.stringify(text))
-    })
+
+function JStoPY(texte) {
+  const url= 'http://localhost:8989/JStoPY' 
+  return new Promise(function(resolve, reject) { 
+    var req = new XMLHttpRequest();
+    req.open('post', url); 
+    req.send(JSON.stringify(texte))
+})
 }
