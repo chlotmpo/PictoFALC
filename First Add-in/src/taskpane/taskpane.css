@@ -207,6 +207,12 @@ label {
     .bouton2:hover {
         background-color: #117a65;
     }
+    .bouton2:active {
+        background-color: #A682FF;
+    }
+    .bouton:active {
+        background-color: #A682FF;
+    }
 
     .bouton2:hover span:after {
         opacity: 1;
