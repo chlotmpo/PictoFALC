@@ -328,6 +328,8 @@ function JStoPY() {
   return new Promise(function(resolve, reject) { 
     var req = new XMLHttpRequest();
     req.open('post', url); 
-    req.send(JSON.stringify("Ce texte provient de Javascript"))
+    req.send(JSON.stringify(`Le bac est un diplôme .
+    Un diplome est un document officiel .
+    `))
 })
 }
