@@ -1,6 +1,4 @@
 
-
-
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
  * See LICENSE in the project root for license information.
@@ -69,7 +67,8 @@ function UseTexte() {
         };
         let output = document.getElementById("Output");
         output.insertAdjacentHTML("beforeend", liste[liste.length - 1]);
-        //
+
+        
         const tr = document.createElement("tr");
         const td = document.createElement("td");
         const td2 = document.createElement("td");
