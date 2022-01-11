@@ -3,6 +3,7 @@
  * See LICENSE in the project root for license information.
  */
 
+
 html,
 body {
     width: 100%;
@@ -11,13 +12,97 @@ body {
     padding: 0;
 }
 
+/*
+html, body {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}*/
+/*-----------------------------------------------------------*/
+.waitingAPI span {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin: 0 5px;
+    position: relative;
+    /*relative;*/
+}
+
+    .waitingAPI span::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: inherit;
+        border-radius: 50%;
+        z-index: -1;
+        animation: ripple 1.5s ease-out infinite;
+    }
+
+    .waitingAPI span:first-child {
+        background-color: #2e82d2;
+    }
+
+        .waitingAPI span:first-child::before {
+            animation-delay: 0.2s;
+        }
+
+    .waitingAPI span:nth-child(2) {
+        background-color: #2872b8;
+        transform: scale(0.9);
+    }
+
+        .waitingAPI span:nth-child(2)::before {
+            animation-delay: 0.4s;
+        }
+
+    .waitingAPI span:nth-child(3) {
+        background-color: #23629e;
+        transform: scale(0.8);
+    }
+
+        .waitingAPI span:nth-child(3)::before {
+            animation-delay: 0.6s;
+        }
+
+    .waitingAPI span:nth-child(4) {
+        background-color: #1d5183;
+        transform: scale(0.7);
+    }
+
+        .waitingAPI span:nth-child(4)::before {
+            animation-delay: 0.8s;
+        }
+
+    .waitingAPI span:last-child {
+        background-color: #174169;
+        transform: scale(0.6);
+    }
+
+        .waitingAPI span:last-child::before {
+            animation-delay: 1s;
+        }
+
+@keyframes ripple {
+    from {
+        opacity: 1;
+        transform: scale(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(3);
+    }
+}
+
+
+/*-----------------------------------------------------------*/
 ul {
     margin: 0;
     padding: 0;
 }
-
-
-
 
 
 .ms-welcome__header {
@@ -106,7 +191,6 @@ label {
 /* Customization des boutons  */
 .bouton {
     background-color: #3604aa;
-    
     border: none;
     border-radius: 4px;
     width: 100px;
@@ -127,41 +211,41 @@ label {
     }
 
 
-.bouton span {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    transition: 0.5s;
-}
+    .bouton span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+    }
 
-.bouton span:after {
-    content: '\00bb';
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    right: -10px;
-    transition: 0.5s;
-}
+        .bouton span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -10px;
+            transition: 0.5s;
+        }
 
     .bouton:hover {
         background: #1f618d;
     }
-.bouton:hover span {
-    padding-right: 10px;
-    
-}
 
-    .bouton:hover span:after {
-        opacity: 1;
-        right: 0;
-    }
+        .bouton:hover span {
+            padding-right: 10px;
+        }
 
-
+            .bouton:hover span:after {
+                opacity: 1;
+                right: 0;
+            }
 
 
 
 
-    /* Customization des boutons2  */
+
+
+/* Customization des boutons2  */
 .bouton2 {
     background-color: #048876;
     border: none;
@@ -174,7 +258,6 @@ label {
     display: inline-block;
     font-size: 10px;
     margin: 10px 20px;
-
 }
 
     .bouton2 span {
@@ -185,36 +268,39 @@ label {
     }
 
 
-.bouton2 span {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    transition: 0.5s;
-}
+    .bouton2 span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+    }
 
-.bouton2 span:after {
-    content: '\00bb';
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    right: -10px;
-    transition: 0.5s;
-}
+        .bouton2 span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -10px;
+            transition: 0.5s;
+        }
 
     .bouton2:hover span {
         padding-right: 10px;
     }
+
     .bouton2:hover {
         background-color: #117a65;
     }
+
     .bouton2:active {
         background-color: #A682FF;
     }
-    .bouton:active {
-        background-color: #A682FF;
-    }
 
-    .bouton2:hover span:after {
-        opacity: 1;
-        right: 0;
-    }
+.bouton:active {
+    background-color: #A682FF;
+}
+
+.bouton2:hover span:after {
+    opacity: 1;
+    right: 0;
+}

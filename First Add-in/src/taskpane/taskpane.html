@@ -12,13 +12,11 @@
 
     <!-- Office JavaScript API -->
     <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
-
     <!-- For more information on Fluent UI, visit https://developer.microsoft.com/fluentui#/. -->
     <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.6.1/css/fabric.min.css" />
 
     <!-- Template styles -->
     <link href="taskpane.css" rel="stylesheet" type="text/css" />
-
 
 </head>
 
@@ -27,8 +25,6 @@
         <img width="90" height="90" src="../../assets/logo-filled.png" alt="Contoso" title="Contoso" />
         <h1 class="ms-font-su"> Auto Falc</h1>
     </header>
-
-
 
     <section id="sideload-msg" class="ms-welcome__main" style="display: none;">
         <h2 class="ms-font-xl">Please sideload your add-in to see app body.</h2>
@@ -43,27 +39,29 @@
                 <td><button class="bouton" id="Reset" style="width:120px"><span>Reset</span></button></td>
             </tr>
             <tr>
-                <td><button class="bouton" id="Fetch" style="width:120px"><span>PYtoJS</span></button></td>
-                <td><button class="bouton" id="Sub" style="width:120px"><span>JStoPY</span></button></td>
-
-            </tr>
-            <tr>
                 <td>
-                    <textarea id="txtFalc" name="txtFalc" rows="1" cols="20"></textarea>                    
+                    <textarea id="txtFalc" name="txtFalc" rows="1" cols="20"></textarea>
                 </td>
                 <td><button class="bouton" id="Submit"><span>Search</span></button></td>
             </tr>
         </table>
-            &nbsp;&nbsp; <!-- ajouter un espace -->
+        &nbsp;&nbsp; <!-- ajouter un espace -->
 
-            <table id="Output">
-                <tr><th>Liste de mots clés :</th></tr>
-                <tr><td>...</td></tr>
-            </table>
+        <table id="Output">
+            <tr><th>Liste de mots clés :</th></tr>
+            <tr><td>...</td></tr>
+        </table>
 
-            &nbsp;&nbsp; <!-- ajouter un espace -->
+        &nbsp;&nbsp; <!-- ajouter un espace -->
 
-            <div id="zone_image"></div>
+        <div id="zone_image"></div>
+        <div class="waitingAPI" style=" margin: 0;  display:none; justify-content: center; align-items: center;">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
 
     </main>
 </body>
