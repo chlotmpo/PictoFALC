@@ -102,11 +102,12 @@ function StartProgram() {
                 liste = [...new Set(liste)];
                 */
                 JStoPY(value);
-                sleep2(100).then(() => {
-                    // Do something after the sleep!
+                sleep2(50)
                 PYtoJS();
-                });
-                sleep2(10000).then(() => {
+
+               
+                  
+                sleep2(15000).then(() => {
                 document.getElementById("Fetch").innerHTML = liste
 
 
@@ -320,4 +321,15 @@ function sleep2 (time) {
         return new Promise((resolve) => setTimeout(resolve, time));
       }
       // Usage!
-      
+
+function sleep1(time,table)
+{
+    if (table.length=0)
+    {
+        return sleep1(time,table)
+    }
+    else
+    {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+}

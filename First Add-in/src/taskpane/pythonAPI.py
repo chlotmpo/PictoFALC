@@ -23,13 +23,13 @@ def hello():
 def thisRoute():
     global information
     information = request.data
-    print(information.decode('mac_latin2'))
+    print(information.decode())
     return "nice"
 
 def IAToJS():
     print("sélection des kw dans le txt")
 
-    txtFALC= information.decode('mac_latin2')
+    txtFALC= information.decode()
     kw=keywords_extraction(txtFALC)
     return kw
 
