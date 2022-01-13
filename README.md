@@ -14,6 +14,7 @@ Afin de réaliser cette objectif, notre équipe a décidé de s’orienter vers 
 
 ## Avancement :
 
+https://user-images.githubusercontent.com/84092005/149392991-353c6545-47ce-4b83-bd6c-d5a1c6c31c54.mp4
 
 ### Projet Add-in : 
 #### Le dossier First Add-in comporte l'add-in fonctionnel
