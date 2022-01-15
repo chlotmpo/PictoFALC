@@ -48,8 +48,14 @@ Office.onReady((info) => {
 // We unhighlight all keywords of the list
 // The list of keywords stored is set to empty
 Reset.addEventListener("click", () => {
-    table.innerHTML = `<tr><th>Liste de mots clés :</th></tr>
-                        <tr><td>...</td></tr>`;
+    /*table.innerHTML = `<tr><th>Liste de mots clés :</th></tr>
+                        <tr><td> </td></tr>`;*/
+    table.innerHTML = ` <nav class="accordion arrows" id="Output">
+                <h1 class="box">
+                    <label for="acc-close" class="box-title">Keywords : </label>
+                </h1>
+                <input type="radio" name="accordion" id="acc-close" />
+            </nav>`
     UnHighlight_All_Key_Word(liste);
     liste = [];
 });
@@ -72,8 +78,8 @@ function UseTexte() {
         //creating the picture element for the HTML table
         var DOM_img = document.createElement("img");
         DOM_img.src = img[0];
-        DOM_img.style.width = "75px";
-        DOM_img.style.height = "75px";
+        DOM_img.style.width = "50px";
+        DOM_img.style.height = "50px";
         let button = document.createElement("button");
         button.innerHTML = "insert";
         button.className = "bouton2";
@@ -83,17 +89,32 @@ function UseTexte() {
 
         // Adding the picture element in the HTML table
         let output = document.getElementById("Output");
-        output.insertAdjacentHTML("beforeend", liste[liste.length - 1]);
 
-        const tr = document.createElement("tr");
-        const td = document.createElement("td");
-        const td2 = document.createElement("td");
-        td.appendChild(DOM_img);
-        td2.appendChild(button);
-        tr.appendChild(td);
-        tr.appendChild(td2);
+        let input = document.createElement("input");
+        input.type = "radio";
+        input.name = "accordion";
+        input.id = "cb" + (liste.length + 1);
+        let section = document.createElement("section");
+        section.className = "box";
+        let label = document.createElement("label");
+        label.className = "box-title";
+        label.htmlFor = input.id;
+        label.innerHTML = liste[liste.length - 1];
+        let label2 = document.createElement("label");
+        label2.className = "box-close";
+        label2.htmlFor = "acc-close";
+        let div = document.createElement("div");
+        div.className = "box-content";
 
-        output.appendChild(tr);
+        div.appendChild(DOM_img);
+        div.appendChild(button);
+
+        section.appendChild(label);
+        section.appendChild(label2);
+        section.appendChild(div);
+
+        output.appendChild(input);
+        output.appendChild(section);
     }
 }
 
@@ -108,22 +129,21 @@ function StartProgram() {
         paragraphs.load();
         let value = "";
         return context
-            .sync() 
+            .sync()
             .then(function () {
-                var elements = document.querySelectorAll('.waitingAPI');
-                show(elements);
 
-                show(elements, 'flex');
                 // Converting the "Words" paragraphs to one unique string
                 for (let i = 0; i < paragraphs.items.length; i++) {
                     value += paragraphs.items[i].text;
                 }
                 if (value != "" && value != null) {
+                    var elements = document.querySelectorAll('.waitingAPI');
+                    show(elements,"flex");
                     JStoPY(value);
                     sleep2(50).then(() => {
                         PYtoJS();
                     });
-                }                
+                }
             })
             .then(context.sync);
     });
@@ -303,8 +323,12 @@ function PYtoJS() {
 
                     // Updating the HTML table
                     let img = RechercheImg(liste);
-                    table.innerHTML = `<tr><th>Liste de mots clés :</th></tr>`;
-
+                    table.innerHTML = ` <nav class="accordion arrows" id="Output">
+                                            <h1 class="box">
+                                                <label for="acc-close" class="box-title">Keywords : </label>
+                                            </h1>
+                                            <input type="radio" name="accordion" id="acc-close" />
+                                        </nav>`
                     hide(document.querySelectorAll('.waitingAPI'));
 
                     for (let i = 0; i < liste.length; i++) {
@@ -324,16 +348,32 @@ function PYtoJS() {
 
                         // Insertion of the picture element in the HTML table
                         let output = document.getElementById("Output");
-                        output.insertAdjacentHTML("beforeend", liste[i]);
-                        const tr = document.createElement("tr");
-                        const td = document.createElement("td");
-                        const td2 = document.createElement("td");
-                        td.appendChild(DOM_img);
-                        td2.appendChild(button);
-                        tr.appendChild(td);
-                        tr.appendChild(td2);
 
-                        output.appendChild(tr);
+                        let input = document.createElement("input");
+                        input.type = "radio";
+                        input.name = "accordion";
+                        input.id = "cb" + (liste[i] + 1);
+                        let section = document.createElement("section");
+                        section.className = "box";
+                        let label = document.createElement("label");
+                        label.className = "box-title";
+                        label.htmlFor = input.id;
+                        label.innerHTML = liste[i];
+                        let label2 = document.createElement("label");
+                        label2.className = "box-close";
+                        label2.htmlFor = "acc-close";
+                        let div = document.createElement("div");
+                        div.className = "box-content";
+
+                        div.appendChild(DOM_img);
+                        div.appendChild(button);
+
+                        section.appendChild(label);
+                        section.appendChild(label2);
+                        section.appendChild(div);
+
+                        output.appendChild(input);
+                        output.appendChild(section);
                     }
                 }
             }));

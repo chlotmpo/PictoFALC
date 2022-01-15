@@ -1,5 +1,4 @@
-﻿
-<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+﻿<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
 <!-- This file shows how to design a first-run page that provides a welcome screen to the user about the features of the add-in. -->
 
 <!DOCTYPE html>
@@ -30,38 +29,44 @@
     <section id="sideload-msg" class="ms-welcome__main" style="display: none;">
         <h2 class="ms-font-xl">Please sideload your add-in to see app body.</h2>
     </section>
-    
+
+
     <main id="app-body" class="ms-welcome__main">
-        <div>
-            <button class="bouton" id="Start" style="width:120px"><span>Start</span></button>
-            <button class="bouton" id="Reset" style="width:120px"><span>Reset</span></button>
-            <div class="form">
-                <input type="text" id="txtFalc" class="form__txtFalc" placeholder="type a word" />
-                <button class="bouton" id="Submit">Search</button>
+
+        <table>
+            <tr>
+                <td><button class="bouton" id="Start" style="width:120px"><span>Start</span></button></td>
+                <td><button class="bouton" id="Reset" style="width:120px"><span>Reset</span></button></td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea id="txtFalc" name="txtFalc" rows="1" cols="20"></textarea>
+                </td>
+                <td><button class="bouton" id="Submit"><span>Search</span></button></td>
+            </tr>
+        </table>
+        &nbsp;&nbsp; <!-- ajouter un espace -->
+
+        <table id="Output">
+            <tr><th>Liste de mots clés :</th></tr>
+            <tr><td>...</td></tr>
+        </table>
+
+        &nbsp;&nbsp; <!-- ajouter un espace -->
+
+        <div id="zone_image"></div>
+        <p align="center">
+            <div class="waitingAPI" style=" margin: 0;  display:none; justify-content:center; align-content: center;">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
-        </div>
-        
+        </p>
+
+
     </main>
-
-    <footer class="ms-welcome__footer">
-
-        <nav class="accordion arrows" id="Output">
-            <h1 class="box">
-                <label for="acc-close" class="box-title">Keywords : </label>
-            </h1>
-            <input type="radio" name="accordion" id="acc-close" />
-        </nav>
-
-        <div class="waitingAPI" style="display:none;">
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="shadow"></div>
-            <div class="shadow"></div>
-            <div class="shadow"></div>
-            <span>Loading</span>
-        </div>
-    </footer>
 </body>
 
 </html>
