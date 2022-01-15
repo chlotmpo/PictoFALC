@@ -1,8 +1,20 @@
 # Auto_FALC
 
-## BDD BRUNOOOOOOOOOOOOOOOOOOOO
-https://github.com/mysqljs/mysql
-## BDD
+Le projet **Auto FALC** a été proposé par **Microsoft France** et l’**UCANSS** et est réalisé par une équipe composée de 5 étudiants ingénieurs en M1 “Data & IA” à l’ESILV. Il consiste à concevoir un outil permettant de générer automatiquement une illustration de texte FALC.   
+
+Il est donc important de définir ce que signifie le terme **« FALC »**. Généralement, les personnes en situation de handicap intellectuel rencontrent des difficultés à lire des textes du fait de leur complexité, et de leur mise en forme non intuitive. Le Facile à lire et à comprendre (ou FALC) est là pour répondre à ce problème.  
+
+Le FALC a été créé en 2009, à travers un projet européen intitulé « Pathways », il s’agit d’un ensemble de règles d’écriture de documents (qui portent à la fois sur le fond du texte, et sur sa forme), permettant aux personnes en situation de handicap intellectuel de mieux comprendre et lire des documents.    
+
+Par ailleurs, un texte FALC est encore plus compréhensible lorsqu’il est **illustré** par des dessins, pictogrammes ou photos. Cependant, il est aujourd’hui encore trop difficile pour ses concepteurs de trouver rapidement des illustrations adaptées. ***La rédaction demeure trop contraignante. **  
+
+L’objectif du projet consiste donc à faciliter l’illustration du FALC grâce à l’**IA**, en proposant automatiquement des pictogrammes adaptés à un texte écrit en FALC et ainsi faciliter le travail des illustrateurs.  
+
+Afin de réaliser cette objectif, notre équipe a décidé de s’orienter vers la réalisation d’un **Add-In Word**, facile à installer, qui **analysera le texte** écrit en FALC, et proposera **automatiquement des pictogrammes**. La personne qui travaille sur la traduction d’un texte en FALC pourra alors choisir, et placer les pictogrammes qui lui conviennent et cela lui permettra de gagner un temps considérable sur la recherche des illustrations. 
+
+## Avancement :
+
+https://user-images.githubusercontent.com/84092005/149392991-353c6545-47ce-4b83-bd6c-d5a1c6c31c54.mp4
 
 ### Projet Add-in : 
 #### Le dossier First Add-in comporte l'add-in fonctionnel
