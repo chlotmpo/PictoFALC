@@ -43,6 +43,7 @@ from keybert import KeyBERT
 # pip install git+https://github.com/LIAAD/yake
 import yake
 
+
 # Ouvrir le fichier texte
 def open_text(filename):
     f = open(filename)
@@ -59,19 +60,19 @@ def translate_text_to_en(text):
 # Calcul du nombre de mots à extraire
 def number_extract_words(text):
     nb_words = len(text.text.split(" "))
-    nb_extract_words = int(nb_words/10)
+    nb_extract_words = int(nb_words/10)+1
     return nb_extract_words
 
 # modèle KeyBert
 # Retourne la liste des mots clés
 def keybert_application(text, nb_extract_words):
     kw_model = KeyBERT()
-    keywords_bert = kw_model.extract_keywords(text.text, top_n = nb_extract_words)
+    keywords_bert = kw_model.extract_keywords(text.text, top_n = nb_extract_words, keyphrase_ngram_range=(1, 1))
     return keywords_bert
 
 # modèle Yake
 def yake_application(text, nb_extract_words):
-    model = yake.KeywordExtractor(lan = "en", n = 2, dedupLim = 0.9, top = nb_extract_words)
+    model = yake.KeywordExtractor(lan = "en", n = 1, dedupLim = 0.7, top = nb_extract_words)
     keywords_yake = model.extract_keywords(text.text)
     return keywords_yake
 
@@ -86,31 +87,25 @@ def fusion_keywords_lists(l1, l2):
 def translate_list_to_fr(list_words):
     trans2 = Translator()
     translate_list = []
-
     for group in list_words:
-        temp = []
-        for word in group:
-            print("here2")
-            transWord = trans2.translate(word,  dest = 'fr')
-            temp.append(transWord.text)
-        translate_list.append(temp)
+        temp = trans2.translate(group,src='en',  dest = 'fr')
+        translate_list.append(temp.text)
     return translate_list
 
 
+    
 # Fonction principale
-def keywords_extraction(french_text):
-    
+def keywords_extraction(french_text):    
     english_text = translate_text_to_en(french_text)
-    #print(english_text.text)
     nb_extract_words = number_extract_words(english_text)
-    
     keybert_extracted_words = keybert_application(english_text, nb_extract_words)
-    yake_extracted_words = yake_application(english_text, nb_extract_words)
-    
-    extracted_words = fusion_keywords_lists(keybert_extracted_words, yake_extracted_words)
-    print("fin de l'IA", extracted_words)
-    
-    return extracted_words
+    yake_extracted_words = yake_application(english_text, nb_extract_words)    
+    extracted_words = fusion_keywords_lists(keybert_extracted_words, yake_extracted_words) 
+    print("before",extracted_words)
+    liste_finale = translate_list_to_fr(extracted_words)
+    liste_finale = [el for el in liste_finale if el.count(' ')==0]
+    print("after",liste_finale)
+    return liste_finale
 
 
 

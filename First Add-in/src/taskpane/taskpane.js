@@ -140,7 +140,7 @@ function StartProgram() {
                     var elements = document.querySelectorAll('.waitingAPI');
                     show(elements,"flex");
                     JStoPY(value);
-                    sleep2(50).then(() => {
+                    sleep2(100).then(() => {
                         PYtoJS();
                     });
                 }
