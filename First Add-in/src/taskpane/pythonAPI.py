@@ -5,9 +5,14 @@ Created on Mon Nov 22 13:07:57 2021
 @author: bruno
 """
 
+import pyodbc
+import yake
+from keybert import KeyBERT
+from googletrans import Translator
 from flask import Flask, request, jsonify, after_this_request
 
 app = Flask(__name__)
+
 
 @app.route('/PYtoJS', methods=['GET'])
 def hello():
@@ -20,6 +25,7 @@ def hello():
     print(jsonResp)
     return jsonify(jsonResp)
 
+
 @app.route('/JStoPY', methods=['GET', 'POST'])
 def thisRoute():
     global information
@@ -27,21 +33,24 @@ def thisRoute():
     print(information.decode())
     return "nice"
 
+
 def IAToJS():
     print("sélection des kw dans le txt")
 
-    txtFALC= information.decode()
-    kw=keywords_extraction(txtFALC)
-    return kw
+    txtFALC = information.decode()
+    if len(txtFALC.split()) == 1:
+        txtFALC=txtFALC[1:-1]
+        kwdict = Query_DB([txtFALC])
+    else:
+        kw = keywords_extraction(txtFALC)
+        kwdict = Query_DB(kw)
+    return kwdict
 
-    
+
 # pip install googletrans==3.1.0a0
 # pip install googletrans==4.0.0rc1
-from googletrans import Translator
 # pip install keybert
-from keybert import KeyBERT
 # pip install git+https://github.com/LIAAD/yake
-import yake
 
 
 # Ouvrir le fichier texte
@@ -52,12 +61,16 @@ def open_text(filename):
     return text
 
 # Traduire le texte
+
+
 def translate_text_to_en(text):
     trans = Translator()
-    transText = trans.translate(text, dest = 'en')
+    transText = trans.translate(text, dest='en')
     return transText
 
 # Calcul du nombre de mots à extraire
+
+
 def number_extract_words(text):
     nb_words = len(text.text.split(" "))
     nb_extract_words = int(nb_words/10)+1
@@ -65,51 +78,97 @@ def number_extract_words(text):
 
 # modèle KeyBert
 # Retourne la liste des mots clés
+
+
 def keybert_application(text, nb_extract_words):
     kw_model = KeyBERT()
-    keywords_bert = kw_model.extract_keywords(text.text, top_n = nb_extract_words, keyphrase_ngram_range=(1, 1))
+    keywords_bert = kw_model.extract_keywords(
+        text.text, top_n=nb_extract_words, keyphrase_ngram_range=(1, 1))
     return keywords_bert
 
 # modèle Yake
+
+
 def yake_application(text, nb_extract_words):
-    model = yake.KeywordExtractor(lan = "en", n = 1, dedupLim = 0.7, top = nb_extract_words)
+    model = yake.KeywordExtractor(
+        lan="en", n=1, dedupLim=0.7, top=nb_extract_words)
     keywords_yake = model.extract_keywords(text.text)
     return keywords_yake
 
-# fusionne les mots clés venant de KeyBert et Yake 
+# fusionne les mots clés venant de KeyBert et Yake
 # enlève les doublons
+
+
 def fusion_keywords_lists(l1, l2):
     l1 = [el[0].lower() for el in l1]
     l2 = [el[0].lower() for el in l2]
-    fusion_list = list(set(l1 + l2)) # pour retirer les mots en double
+    fusion_list = list(set(l1 + l2))  # pour retirer les mots en double
     return fusion_list
-    
+
+
 def translate_list_to_fr(list_words):
     trans2 = Translator()
     translate_list = []
     for group in list_words:
-        temp = trans2.translate(group,src='en',  dest = 'fr')
+        temp = trans2.translate(group, src='en',  dest='fr')
         translate_list.append(temp.text)
     return translate_list
 
 
-    
 # Fonction principale
-def keywords_extraction(french_text):    
+def keywords_extraction(french_text):
     english_text = translate_text_to_en(french_text)
     nb_extract_words = number_extract_words(english_text)
-    keybert_extracted_words = keybert_application(english_text, nb_extract_words)
-    yake_extracted_words = yake_application(english_text, nb_extract_words)    
-    extracted_words = fusion_keywords_lists(keybert_extracted_words, yake_extracted_words) 
-    print("before",extracted_words)
+    keybert_extracted_words = keybert_application(
+        english_text, nb_extract_words)
+    yake_extracted_words = yake_application(english_text, nb_extract_words)
+    extracted_words = fusion_keywords_lists(
+        keybert_extracted_words, yake_extracted_words)
+    print("before", extracted_words)
     liste_finale = translate_list_to_fr(extracted_words)
-    liste_finale = [el for el in liste_finale if el.count(' ')==0]
-    print("after",liste_finale)
+    liste_finale = [el for el in liste_finale if el.count(' ') == 0]
+    print("after", liste_finale)
     return liste_finale
 
+###################################################################
+
+
+server = 'falcserver.database.windows.net'
+database = 'Falc_DB'
+username = 'azureuser'
+password = '{rootFALC2022}'
+driver = '{ODBC Driver 17 for SQL Server}'
+
+
+def Query_DB(kw_list):
+    image_list = {}
+    for i in kw_list:
+        image_list[i] = Query_KW(i)
+        if len(image_list[i]) == 0:
+            image_list[i] = "https://pleinjour.fr/wp-content/plugins/lightbox/images/No-image-found.jpg"
+        if type(image_list[i])==str:
+            image_list[i]=image_list[i].split()
+            
+    return image_list
+
+
+def Query_KW(kw):
+    image_kw = []
+    with pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD=' + password) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(""" Select url from picto_motcle pm
+                               join motcle mc on pm.id_mc=mc.id_mc
+                               join picto pc on pc.id_pic=pm.id_pic
+                               where mot='%s';""" % kw)
+            row = cursor.fetchone()
+            while row:
+                []
+                image_kw.append(
+                    "https://falcimages.blob.core.windows.net/falccontainer/"+str(row[0]))
+                #print (str(row[0]) + " " + str(row[1]))
+                row = cursor.fetchone()
+    return image_kw
 
 
 if __name__ == '__main__':
     app.run(host='localhost', port=8989)
-    
-    
