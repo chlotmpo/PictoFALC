@@ -58,6 +58,7 @@ Reset.addEventListener("click", () => {
             </nav>`
     UnHighlight_All_Key_Word(liste);
     liste = [];
+
 });
 
 /*** 
@@ -93,7 +94,7 @@ function UseTexte() {
         let input = document.createElement("input");
         input.type = "radio";
         input.name = "accordion";
-        input.id = "cb"+entierAleatoire(0, 9999999999);
+        input.id = "cb" + liste.length+1;
         let section = document.createElement("section");
         section.className = "box";
         let label = document.createElement("label");
@@ -116,7 +117,6 @@ function UseTexte() {
         output.appendChild(input);
         output.appendChild(section);
     }
-    liste = [];
 }
 
 /***
@@ -312,42 +312,38 @@ function PYtoJS() {
         fetch(url).then(response =>
             response.json().then(data => ({
                 data: data,
-            })
-            
+            })            
             ).then(response => {
 
 
                 // document.getElementById("Start").innerHTML=Object.keys(response.data)
-
-
+                console.log(liste.length, liste)
                 for(const [key,value] of Object.entries(response.data))
                 {
                     if (liste.includes(key) == false) {
                         liste.push(key);
                     }
                 }
-                if (liste != null) {//checking if there was something selected by the user
+                if (liste != null) { //checking if there was something selected by the user
                     Highlight_All_Key_Word(liste);
-
-
-                    // Updating the HTML table
+                    hide(document.querySelectorAll('.waitingAPI'));
+                    console.log(liste.length, liste)
+                    console.log(response.data)
+                    // Updating the HTML table     
                     let img = []
                     for (let j=0;j<liste.length;j++)
-                    {    
-                            img.push(response.data[liste[j]][0])   
+                    {
+                        console.log(j)
+                        img.push(response.data[liste[j]][0])
                     }
-
-
-
-
+                    
                     table.innerHTML = ` <nav class="accordion arrows" id="Output">
                                             <h1 class="box">
                                                 <label for="acc-close" class="box-title">Keywords : </label>
                                             </h1>
                                             <input type="radio" name="accordion" id="acc-close" />
                                         </nav>`
-                    hide(document.querySelectorAll('.waitingAPI'));
-
+                    
                     for (let i = 0; i < liste.length; i++) {
 
                         // creation of the picture element
@@ -369,7 +365,7 @@ function PYtoJS() {
                         let input = document.createElement("input");
                         input.type = "radio";
                         input.name = "accordion";
-                        input.id = "cb"+entierAleatoire(0, 9999999999);
+                        input.id = "cb" + i+1;
                         let section = document.createElement("section");
                         section.className = "box";
                         let label = document.createElement("label");
