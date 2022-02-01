@@ -13,14 +13,7 @@ let table = document.getElementById("Output"); // To manage the Table element in
 // global list of keywords that were found
 // convenient because it eases the addition of new keywords, or the deletion of all elements in the list
 // even if these actions are made in totally distinct functions.
-let liste = [];
-
-// sample images in order to display them for special keywords, used for testing, will be removed
-let images = {
-    mange: "https://www.sclera.be/resources/pictos/administratie.png",
-    bois: "https://www.sclera.be/resources/pictos/agenda.png",
-    repas: "https://www.sclera.be/resources/pictos/tandenborstel.png",
-};
+let liste = {};
 
 // ###### global document, Office, Word ######################################################################
 
@@ -57,7 +50,7 @@ Reset.addEventListener("click", () => {
                 <input type="radio" name="accordion" id="acc-close" />
             </nav>`
     UnHighlight_All_Key_Word(liste);
-    liste = [];
+    liste = {};
 
 });
 
@@ -69,54 +62,14 @@ Reset.addEventListener("click", () => {
 function UseTexte() {
     // Getting the string typed by the user
     const wordFALC = document.getElementById("txtFalc").value.toString();
-    if (liste.includes(wordFALC) == false) {
-        liste.push(wordFALC);
-        Highlight_Key_Word(wordFALC, "#FFFF00");
-
-        // looking for the image in the "database"
-        let img = RechercheImg([wordFALC]);
-
-        //creating the picture element for the HTML table
-        var DOM_img = document.createElement("img");
-        DOM_img.src = img[0];
-        DOM_img.style.width = "50px";
-        DOM_img.style.height = "50px";
-        let button = document.createElement("button");
-        button.innerHTML = "insert";
-        button.className = "bouton2";
-        button.onclick = function () {
-            InsertImageHtml(img[0]);
-        };
-
-        // Adding the picture element in the HTML table
-        let output = document.getElementById("Output");
-
-        let input = document.createElement("input");
-        input.type = "radio";
-        input.name = "accordion";
-        input.id = "cb" + liste.length+1;
-        let section = document.createElement("section");
-        section.className = "box";
-        let label = document.createElement("label");
-        label.className = "box-title";
-        label.htmlFor = input.id;
-        label.innerHTML = liste[liste.length - 1];
-        let label2 = document.createElement("label");
-        label2.className = "box-close";
-        label2.htmlFor = "acc-close";
-        let div = document.createElement("div");
-        div.className = "box-content";
-
-        div.appendChild(DOM_img);
-        div.appendChild(button);
-
-        section.appendChild(label);
-        section.appendChild(label2);
-        section.appendChild(div);
-
-        output.appendChild(input);
-        output.appendChild(section);
-    }
+    if ((wordFALC in liste) == false) {
+        JStoPY(wordFALC);
+        sleep2(100).then(() => {
+            PYtoJS();
+        })
+    } else {
+        console.log
+    }    
 }
 
 /***
@@ -150,21 +103,6 @@ function StartProgram() {
     });
 }
 
-/***
- * Function in order to simulate a search of keywords in the text
- * @param  {string} value [the paragraph selected by the user]
- * @return {string[]} temp [the array of words present in the glossary of keywords]
- * */
-function RechercheMots(value) {
-    let comparaison = ["mange", "bois", "repas", "test"];
-    let temp = [];
-    for (let i = 0; i < comparaison.length; i++) {
-        if (value.includes(comparaison[i])) {
-            temp.push(comparaison[i]);
-        }
-    }
-    return temp;
-}
 
 /***
  * tries to find an image related to the word in the "database"
@@ -266,7 +204,8 @@ function Highlight_Key_Word(kw, colors) {
  * */
 function Highlight_All_Key_Word(liste) {
     // Liste des mots clés renvoyée par l'IA
-    const IA_Key_Word = liste;
+    
+    const IA_Key_Word = Object.keys(liste);
     for (let index = 0; index < IA_Key_Word.length; index++) {
         Highlight_Key_Word(IA_Key_Word[index], "#FFFF00");
     }
@@ -278,7 +217,7 @@ function Highlight_All_Key_Word(liste) {
  * */
 function UnHighlight_All_Key_Word(liste) {
     // Liste des mots clés renvoyée par l'IA
-    const IA_Key_Word = liste;
+    const IA_Key_Word = Object.keys(liste);
     for (let index = 0; index < IA_Key_Word.length; index++) {
         Highlight_Key_Word(IA_Key_Word[index], "#FFFFFF");
     }
@@ -314,28 +253,16 @@ function PYtoJS() {
                 data: data,
             })            
             ).then(response => {
-
-
-                // document.getElementById("Start").innerHTML=Object.keys(response.data)
-                console.log(liste.length, liste)
                 for(const [key,value] of Object.entries(response.data))
                 {
-                    if (liste.includes(key) == false) {
-                        liste.push(key);
+                    if ((key in liste) == false) {
+                        liste[key] = value;
                     }
                 }
                 if (liste != null) { //checking if there was something selected by the user
                     Highlight_All_Key_Word(liste);
                     hide(document.querySelectorAll('.waitingAPI'));
-                    console.log(liste.length, liste)
-                    console.log(response.data)
                     // Updating the HTML table     
-                    let img = []
-                    for (let j=0;j<liste.length;j++)
-                    {
-                        console.log(j)
-                        img.push(response.data[liste[j]][0])
-                    }
                     
                     table.innerHTML = ` <nav class="accordion arrows" id="Output">
                                             <h1 class="box">
@@ -343,51 +270,63 @@ function PYtoJS() {
                                             </h1>
                                             <input type="radio" name="accordion" id="acc-close" />
                                         </nav>`
-                    
-                    for (let i = 0; i < liste.length; i++) {
 
-                        // creation of the picture element
-                        var DOM_img = document.createElement("img");
-                        DOM_img.src = img[i];
-                        DOM_img.alt = "No image were found...";
-                        DOM_img.style.width = "75px";
-                        DOM_img.style.height = "75px";
-                        let button = document.createElement("button");
-                        button.innerHTML = "Insert";
-                        button.className = "bouton2";
-                        button.onclick = function () {
-                            InsertImageHtml(img[i]);
-                        };
+                    for (const [key, value] of Object.entries(liste)) {
+                        for (let i = 0; i < value.length && i < 3; i++) {
 
-                        // Insertion of the picture element in the HTML table
-                        let output = document.getElementById("Output");
+                            // creation of the picture element
+                            var DOM_img = document.createElement("img");
+                            DOM_img.src = value[i];
+                            DOM_img.alt = "No image were found...";
+                            DOM_img.style.width = "75px";
+                            DOM_img.style.height = "75px";
+                            let button = document.createElement("button");
+                            button.innerHTML = "Insert";
+                            button.className = "bouton2";
+                            button.onclick = function () {
+                                InsertImageHtml(value[i]);
+                            };
 
-                        let input = document.createElement("input");
-                        input.type = "radio";
-                        input.name = "accordion";
-                        input.id = "cb" + i+1;
-                        let section = document.createElement("section");
-                        section.className = "box";
-                        let label = document.createElement("label");
-                        label.className = "box-title";
-                        label.htmlFor = input.id;
-                        label.innerHTML = liste[i];
-                        let label2 = document.createElement("label");
-                        label2.className = "box-close";
-                        label2.htmlFor = "acc-close";
-                        let div = document.createElement("div");
-                        div.className = "box-content";
+                            // Insertion of the picture element in the HTML table
+                            let output = document.getElementById("Output");
 
-                        div.appendChild(DOM_img);
-                        div.appendChild(button);
+                            let input = document.createElement("input");
+                            input.type = "radio";
+                            input.name = "accordion";
+                            input.id = "cb" + key + i;
 
-                        section.appendChild(label);
-                        section.appendChild(label2);
-                        section.appendChild(div);
+                            let div = document.createElement("div");
+                            div.className = "box-content";
+                            div.appendChild(DOM_img);
+                            div.appendChild(button);
 
-                        output.appendChild(input);
-                        output.appendChild(section);
+                            let label = document.createElement("label");
+                            label.className = "box-title";
+                            label.htmlFor = input.id;
+                            label.innerHTML = key;
+                            let label2 = document.createElement("label");
+                            label2.className = "box-close";
+                            label2.htmlFor = "acc-close";
+                            if (document.querySelector("[id=" + CSS.escape(key) + "]") == null) {
+                                let newSection = document.createElement("section");
+                                newSection.className = "box";
+                                newSection.id = key
+                                newSection.appendChild(label);
+                                newSection.appendChild(label2);
+                                newSection.appendChild(div);                                
+                                output.appendChild(input);
+                                output.appendChild(newSection);
+                                console.log(newSection)
+                                
+                            } else {
+                                let section = document.querySelector("[id=" + CSS.escape(key) + "]")
+                                section.appendChild(div);
+                                console.log(section)
+                            }                                                       
+                            
+                        }
                     }
+                    
                 }
             }));
     })
@@ -416,9 +355,4 @@ function show(elements, specifiedDisplay) {
     for (var index = 0; index < elements.length; index++) {
         elements[index].style.display = specifiedDisplay || 'block';
     }
-}
-
-function entierAleatoire(min, max)
-{
- return Math.floor(Math.random() * (max - min + 1)) + min;
 }

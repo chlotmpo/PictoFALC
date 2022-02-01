@@ -30,7 +30,7 @@ def hello():
 def thisRoute():
     global information
     information = request.data
-    print(information.decode())
+    #print(information.decode())
     return "nice"
 
 
