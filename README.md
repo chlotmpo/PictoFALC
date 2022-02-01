@@ -16,6 +16,10 @@ Afin de réaliser cette objectif, notre équipe a décidé de s’orienter vers 
 
 https://user-images.githubusercontent.com/84092005/149626335-8022148c-84d3-434f-a8cf-b7383101c647.mp4
 
+## Schéma Structurel :
+<a href="url"><img src="https://github.com/chlotmpo/Auto_FALC/blob/0f53cddedcddccc855609c29d6e732e367d0ac90/structure.png" align="center" width=100% height=100% ></a>
+
+
 ### Projet Add-in : 
 #### Le dossier First Add-in comporte l'add-in fonctionnel
 c'est à dire qu'il suffit d'avoir installé node.js (et Yeoman ?) pour pouvoir lancer le projet.
