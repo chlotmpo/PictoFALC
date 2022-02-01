@@ -103,25 +103,6 @@ function StartProgram() {
     });
 }
 
-
-/***
- * tries to find an image related to the word in the "database"
- * if yes, the corresponding link is added, if not a default link is added
- * @param  {string[]} value [description]
- * @return {string[]}      [an array of links for pictures]
- * */
-function RechercheImg(value) {
-    let img = [];
-    for (let i = 0; i < value.length; i++) {
-        if (value[i] in images) {
-            img.push(images[value[i]]);
-        } else {
-            img.push("https://pleinjour.fr/wp-content/plugins/lightbox/images/No-image-found.jpg");
-        }
-    }
-    return img;
-}
-
 /***
  * [someFunction description]
  * @param  {[type]} arg1 [description]
@@ -273,7 +254,6 @@ function PYtoJS() {
 
                     for (const [key, value] of Object.entries(liste)) {
                         for (let i = 0; i < value.length && i < 3; i++) {
-
                             // creation of the picture element
                             var DOM_img = document.createElement("img");
                             DOM_img.src = value[i];
@@ -286,7 +266,6 @@ function PYtoJS() {
                             button.onclick = function () {
                                 InsertImageHtml(value[i]);
                             };
-
                             // Insertion of the picture element in the HTML table
                             let output = document.getElementById("Output");
 
@@ -304,9 +283,11 @@ function PYtoJS() {
                             label.className = "box-title";
                             label.htmlFor = input.id;
                             label.innerHTML = key;
+
                             let label2 = document.createElement("label");
                             label2.className = "box-close";
                             label2.htmlFor = "acc-close";
+
                             if (document.querySelector("[id=" + CSS.escape(key) + "]") == null) {
                                 let newSection = document.createElement("section");
                                 newSection.className = "box";
@@ -314,19 +295,15 @@ function PYtoJS() {
                                 newSection.appendChild(label);
                                 newSection.appendChild(label2);
                                 newSection.appendChild(div);                                
+
                                 output.appendChild(input);
-                                output.appendChild(newSection);
-                                console.log(newSection)
-                                
+                                output.appendChild(newSection);                                
                             } else {
                                 let section = document.querySelector("[id=" + CSS.escape(key) + "]")
                                 section.appendChild(div);
-                                console.log(section)
-                            }                                                       
-                            
+                            }
                         }
-                    }
-                    
+                    }                    
                 }
             }));
     })
