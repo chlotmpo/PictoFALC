@@ -10,6 +10,7 @@ import yake
 from keybert import KeyBERT
 from googletrans import Translator
 from flask import Flask, request, jsonify, after_this_request
+from thefuzz import fuzz
 
 app = Flask(__name__)
 
@@ -63,16 +64,56 @@ def open_text(filename):
 # Traduire le texte
 
 
+# Azure translator
+import requests, uuid, json
+# Add your subscription key and endpoint
+subscription_key = "83772a8ee5304b5e86ed0c7726d328b9"
+endpoint = "https://api.cognitive.microsofttranslator.com"
+# Add your location, also known as region. The default is global.
+# This is required if using a Cognitive Services resource.
+location = "global"
+path = '/translate'
+constructed_url = endpoint + path
+headers = {
+    'Ocp-Apim-Subscription-Key': subscription_key,
+    'Ocp-Apim-Subscription-Region': location,
+    'Content-type': 'application/json',
+    'X-ClientTraceId': str(uuid.uuid4())
+}
+
+
+
+
+# Traduire le texte
+
+
 def translate_text_to_en(text):
     trans = Translator()
     transText = trans.translate(text, dest='en')
+    return transText
+
+def translate_text_to_en_azure(text):
+    params = {
+    'api-version': '3.0',
+    'from': 'fr',
+    'to': 'en'}
+    # You can pass more than one object in body.
+    body = [{
+        'text': text
+    }]
+    request = requests.post(constructed_url, params=params, headers=headers, json=body)
+    response = request.json()
+    transText = json.dumps(response[0]["translations"][0]["text"], 
+                           sort_keys=True, ensure_ascii=False, indent=4, 
+                           separators=(',', ': '))
     return transText
 
 # Calcul du nombre de mots à extraire
 
 
 def number_extract_words(text):
-    nb_words = len(text.text.split(" "))
+    #nb_words = len(text.text.split(" "))
+    nb_words = len(text.split(" "))
     nb_extract_words = int(nb_words/10)+1
     return nb_extract_words
 
@@ -82,8 +123,9 @@ def number_extract_words(text):
 
 def keybert_application(text, nb_extract_words):
     kw_model = KeyBERT()
+    # for google translate, use text.text
     keywords_bert = kw_model.extract_keywords(
-        text.text, top_n=nb_extract_words, keyphrase_ngram_range=(1, 1))
+        text, top_n=nb_extract_words, keyphrase_ngram_range=(1, 1))
     return keywords_bert
 
 # modèle Yake
@@ -92,7 +134,7 @@ def keybert_application(text, nb_extract_words):
 def yake_application(text, nb_extract_words):
     model = yake.KeywordExtractor(
         lan="en", n=1, dedupLim=0.7, top=nb_extract_words)
-    keywords_yake = model.extract_keywords(text.text)
+    keywords_yake = model.extract_keywords(text)
     return keywords_yake
 
 # fusionne les mots clés venant de KeyBert et Yake
@@ -114,10 +156,65 @@ def translate_list_to_fr(list_words):
         translate_list.append(temp.text)
     return translate_list
 
+def translate_list_to_fr_azure(list_words):
+    translate_list = []
+    params = {
+    'api-version': '3.0',
+    'from': 'en',
+    'to': 'fr'}
+    # You can pass more than one object in body.
+    
+    for group in list_words:
+        body = [{'text': group}]
+        request = requests.post(constructed_url, params=params, headers=headers, json=body)
+        response = request.json()
+        transText = json.dumps(response[0]["translations"][0]["text"], 
+                           sort_keys=True, ensure_ascii=False, indent=4, 
+                           separators=(',', ': '))
+        translate_list.append(transText)
+    return translate_list
+
+
+# prend la liste des mots clés et groupe les mots qui se ressemblent en sous liste
+# il y a des sous listes identiques
+def group_keywords(list_words):
+    list_words = [[word] for word in list_words]
+    for word_a in list_words:
+      for word_b in list_words: 
+        if word_a[0] != word_b[0]:
+          ratio = fuzz.partial_ratio(word_a[0], word_b[0])
+          if ratio > 75: # seuil à partir duquel on considère que 2 mots se ressemblent
+            word_a.append(word_b[0])
+    return list_words
+
+# enlève les sous-listes en double dans la liste des listes de groupes de mots clés
+def remove_same_groups(list_words):
+    temp_list = []
+    for list1 in list_words: 
+      isinlist = False
+      for list2 in temp_list:
+        for word in list2:
+          if list1[0] == word:
+            isinlist = True
+      if isinlist == False:
+        temp_list.append(list1)
+    list_words = temp_list
+    return list_words
+
+def convert_to_list(list_words):
+    return_list = []
+    for small_list in list_words:
+        return_list.append(min(small_list, key = len))
+    return return_list
+
+#from nltk.stem import PorterStemmer
+#from nltk.stem import LancasterStemmer
+
+
 
 # Fonction principale
 def keywords_extraction(french_text):
-    english_text = translate_text_to_en(french_text)
+    english_text = translate_text_to_en_azure(french_text)
     nb_extract_words = number_extract_words(english_text)
     keybert_extracted_words = keybert_application(
         english_text, nb_extract_words)
@@ -125,9 +222,19 @@ def keywords_extraction(french_text):
     extracted_words = fusion_keywords_lists(
         keybert_extracted_words, yake_extracted_words)
     print("before", extracted_words)
-    liste_finale = translate_list_to_fr(extracted_words)
-    liste_finale = [el for el in liste_finale if el.count(' ') == 0]
+    liste_finale = translate_list_to_fr_azure(extracted_words)
+    liste_finale = [el[1:-1] for el in liste_finale]
     print("after", liste_finale)
+    
+    
+    # Nouvelles intégrations
+    liste_finale = group_keywords(liste_finale)
+    liste_finale = remove_same_groups(liste_finale)
+    liste_finale = convert_to_list(liste_finale)
+    #porter = PorterStemmer()
+    # Pas encore testé cette partie du code (la traduc marchait plus)
+    #for i in range(len(liste_finale)):
+         #liste_finale[i] = porter.stem(liste_finale[i])
     return liste_finale
 
 ###################################################################
