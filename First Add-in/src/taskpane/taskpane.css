@@ -13,7 +13,6 @@ body {
     background: white;
 }
 
-
 /* Partie pour l'attente de l'API*/
 
 .waitingAPI {
@@ -124,7 +123,7 @@ body {
 .ms-welcome__header {
     padding: 20px;
     padding-bottom: 10px;
-    padding-top: 10px;
+    padding-top: 20px;
     display: -webkit-flex;
     display: flex;
     flex-direction: row;
@@ -296,14 +295,13 @@ body {
     background-color: #2471a3;
     border: none;
     border-radius: 4px;
-    width: 100px;
+    width: 60px;
     color: white;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 10px;
-    margin: 10px 20px;
+    font-size: 12px;
 }
 
     .bouton2 span {
@@ -402,7 +400,7 @@ h1 .box-title {
 
 .box-content {
     width: calc(100% - 40px);
-    padding: 30px 20px;
+    padding: 5px;
     font-size: 11pt;
     color: rgba(0,0,0,.54);
     display: none;
@@ -430,8 +428,17 @@ input:checked + .box {
 
     input:checked + .box .box-content,
     input:checked + .box .box-close {
-        display: inline-block;
+        display: flex;
+        align-items: center;
+        margin: 5px;
     }
+        input:checked + .box .box-content > div,
+        input:checked + .box .box-close > div {
+            margin: 5px;
+            padding: 5px;            
+            text-align: center;
+            width:60px;
+        }
 
 .arrows section .box-title {
     padding-left: 44px;

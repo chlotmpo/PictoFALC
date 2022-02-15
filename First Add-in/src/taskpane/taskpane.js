@@ -258,14 +258,14 @@ function PYtoJS() {
                             var DOM_img = document.createElement("img");
                             DOM_img.src = value[i];
                             DOM_img.alt = "No image were found...";
-                            DOM_img.style.width = "75px";
-                            DOM_img.style.height = "75px";
+                            DOM_img.style.width = "50px";
+                            DOM_img.style.height = "50px";
                             let button = document.createElement("button");
                             button.innerHTML = "Insert";
                             button.className = "bouton2";
                             button.onclick = function () {
                                 InsertImageHtml(value[i]);
-                            };
+                            };                            
                             // Insertion of the picture element in the HTML table
                             let output = document.getElementById("Output");
 
@@ -276,8 +276,12 @@ function PYtoJS() {
 
                             let div = document.createElement("div");
                             div.className = "box-content";
-                            div.appendChild(DOM_img);
-                            div.appendChild(button);
+
+                            let div2 = document.createElement("div");
+                            div2.appendChild(DOM_img);
+                            div2.appendChild(button);
+
+                            div.appendChild(div2)
 
                             let label = document.createElement("label");
                             label.className = "box-title";
