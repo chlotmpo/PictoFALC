@@ -282,7 +282,7 @@ function PYtoJS() {
                             div2.appendChild(button);
 
                             div.appendChild(div2)
-
+                            
                             let label = document.createElement("label");
                             label.className = "box-title";
                             label.htmlFor = input.id;
@@ -294,17 +294,24 @@ function PYtoJS() {
 
                             if (document.querySelector("[id=" + CSS.escape(key) + "]") == null) {
                                 let newSection = document.createElement("section");
+                                let divgrid=document.createElement("div");
+                                divgrid.id=key+"A";
+                                divgrid.className="grid";
+
                                 newSection.className = "box";
                                 newSection.id = key
                                 newSection.appendChild(label);
                                 newSection.appendChild(label2);
-                                newSection.appendChild(div);                                
-
+                                newSection.appendChild(divgrid);
+                                divgrid.appendChild(div);                           
                                 output.appendChild(input);
-                                output.appendChild(newSection);                                
+                                output.appendChild(newSection); 
+
                             } else {
-                                let section = document.querySelector("[id=" + CSS.escape(key) + "]")
+                                let section = document.querySelector("[id=" + CSS.escape(key) + "A]")
+
                                 section.appendChild(div);
+
                             }
                         }
                     }                    
