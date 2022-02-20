@@ -115,6 +115,8 @@ def number_extract_words(text):
     #nb_words = len(text.text.split(" "))
     nb_words = len(text.split(" "))
     nb_extract_words = int(nb_words/10)+1
+    if (nb_extract_words >= 15):
+        nb_extract_words = 15
     return nb_extract_words
 
 # modèle KeyBert
@@ -126,6 +128,8 @@ def keybert_application(text, nb_extract_words):
     # for google translate, use text.text
     keywords_bert = kw_model.extract_keywords(
         text, top_n=nb_extract_words, keyphrase_ngram_range=(1, 1))
+    #print(keywords_bert)
+    #print("bert number:", len(keywords_bert))
     return keywords_bert
 
 # modèle Yake
@@ -135,15 +139,20 @@ def yake_application(text, nb_extract_words):
     model = yake.KeywordExtractor(
         lan="en", n=1, dedupLim=0.7, top=nb_extract_words)
     keywords_yake = model.extract_keywords(text)
+    #print(keywords_yake)
+    #print("yake number" , len(keywords_yake))
     return keywords_yake
 
 # fusionne les mots clés venant de KeyBert et Yake
 # enlève les doublons
 
 
-def fusion_keywords_lists(l1, l2):
+def fusion_keywords_lists(l1, l2, nb):
     l1 = [el[0].lower() for el in l1]
-    l2 = [el[0].lower() for el in l2]
+    l2 = [el[0].lower() for el in l2 if el[0].lower() not in l1]
+    n = nb//2
+    l1 = l1[:n]
+    l2 = l2[:n]
     fusion_list = list(set(l1 + l2))  # pour retirer les mots en double
     return fusion_list
 
@@ -209,32 +218,64 @@ def convert_to_list(list_words):
 
 #from nltk.stem import PorterStemmer
 #from nltk.stem import LancasterStemmer
+import treetaggerwrapper
+from autocorrect import Speller
 
+def word_lemmatisation(list_words):
+    tagger = treetaggerwrapper.TreeTagger(TAGLANG='fr')
+    lemmes = [] #initialisation d'une liste dans laquelle on y déposera les mots lemmatisés
+    for word in list_words:
+        tag = tagger.tag_text(word, tagonly = True) #methode qui "tag" le texte
+        content = tag[0].split('\t') #la sortie est une liste bien qu'il n'y ait qu'un seul élément ici On split en raison du format de sortie du tag (voir cellules au dessus pour format)
+        lemmes.append(content[2]) #ajout du mot lemmatisé dans la liste correspondante
+    return lemmes
 
+def auto_correction(list_words):
+    spell = Speller(lang = 'fr')
+    new_list = []
+    for word in list_words:
+        new_list.append(spell(word))
+    return new_list
+
+def auto_correction_en(list_words):
+    spell = Speller(lang = 'en')
+    new_list = []
+    for word in list_words:
+        new_list.append(spell(word))
+    return new_list
+        
 
 # Fonction principale
 def keywords_extraction(french_text):
     english_text = translate_text_to_en_azure(french_text)
+    print(french_text)
     nb_extract_words = number_extract_words(english_text)
+    print(nb_extract_words)
     keybert_extracted_words = keybert_application(
         english_text, nb_extract_words)
     yake_extracted_words = yake_application(english_text, nb_extract_words)
     extracted_words = fusion_keywords_lists(
-        keybert_extracted_words, yake_extracted_words)
-    print("before", extracted_words)
+        keybert_extracted_words, yake_extracted_words, nb_extract_words)
+    liste_finale = auto_correction_en(extracted_words)
+    print("\nbefore", extracted_words)
     liste_finale = translate_list_to_fr_azure(extracted_words)
     liste_finale = [el[1:-1] for el in liste_finale]
-    print("after", liste_finale)
+    print("\nafter", liste_finale)
     
     
     # Nouvelles intégrations
     liste_finale = group_keywords(liste_finale)
     liste_finale = remove_same_groups(liste_finale)
     liste_finale = convert_to_list(liste_finale)
+    
     #porter = PorterStemmer()
-    # Pas encore testé cette partie du code (la traduc marchait plus)
     #for i in range(len(liste_finale)):
          #liste_finale[i] = porter.stem(liste_finale[i])
+         
+    liste_finale = word_lemmatisation(liste_finale)
+    liste_finale = auto_correction(liste_finale)
+    print("\nfinal", liste_finale)
+    print(len(liste_finale))
     return liste_finale
 
 ###################################################################
