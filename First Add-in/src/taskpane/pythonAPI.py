@@ -67,11 +67,11 @@ def open_text(filename):
 # Azure translator
 import requests, uuid, json
 # Add your subscription key and endpoint
-subscription_key = "83772a8ee5304b5e86ed0c7726d328b9"
+subscription_key = "9f845a5ff10f43719c60100584c22e7f"
 endpoint = "https://api.cognitive.microsofttranslator.com"
 # Add your location, also known as region. The default is global.
 # This is required if using a Cognitive Services resource.
-location = "global"
+location = "francecentral"
 path = '/translate'
 constructed_url = endpoint + path
 headers = {
@@ -103,6 +103,7 @@ def translate_text_to_en_azure(text):
     }]
     request = requests.post(constructed_url, params=params, headers=headers, json=body)
     response = request.json()
+    print(response)
     transText = json.dumps(response[0]["translations"][0]["text"], 
                            sort_keys=True, ensure_ascii=False, indent=4, 
                            separators=(',', ': '))
