@@ -3,255 +3,252 @@
  * See LICENSE in the project root for license information.
  */
 
-
 html,
 body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background: white;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: white;
 }
 
 /* Partie pour l'attente de l'API*/
 
 .waitingAPI {
-    width: 200px;
-    height: 60px;    
-    position: absolute;
-    left:50%;
-    top:250px;
-    transform: translate(-50%, -50%);
+  width: 200px;
+  height: 60px;
+  position: absolute;
+  left: 50%;
+  top: 250px;
+  transform: translate(-50%, -50%);
 }
 
 .circle {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    border-radius: 50%;
-    background-color: black;
-    left: 15%;
-    transform-origin: 50%;
-    animation: circle .5s alternate infinite ease;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: black;
+  left: 15%;
+  transform-origin: 50%;
+  animation: circle 0.5s alternate infinite ease;
 }
 
 @keyframes circle {
-    0% {
-        top: 60px;
-        height: 5px;
-        border-radius: 50px 50px 25px 25px;
-        transform: scaleX(1.7);
-    }
+  0% {
+    top: 60px;
+    height: 5px;
+    border-radius: 50px 50px 25px 25px;
+    transform: scaleX(1.7);
+  }
 
-    40% {
-        height: 20px;
-        border-radius: 50%;
-        transform: scaleX(1);
-    }
+  40% {
+    height: 20px;
+    border-radius: 50%;
+    transform: scaleX(1);
+  }
 
-    100% {
-        top: 0%;
-    }
+  100% {
+    top: 0%;
+  }
 }
 
 .circle:nth-child(2) {
-    left: 45%;
-    animation-delay: .2s;
+  left: 45%;
+  animation-delay: 0.2s;
 }
 
 .circle:nth-child(3) {
-    left: auto;
-    right: 15%;
-    animation-delay: .3s;
+  left: auto;
+  right: 15%;
+  animation-delay: 0.3s;
 }
 
 .shadow {
-    width: 20px;
-    height: 4px;
-    border-radius: 50%;
-    background-color: rgba(0,0,0,.5);
-    position: absolute;
-    top: 62px;
-    transform-origin: 50%;
-    z-index: -1;
-    left: 15%;
-    filter: blur(1px);
-    animation: shadow .5s alternate infinite ease;
+  width: 20px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 62px;
+  transform-origin: 50%;
+  z-index: -1;
+  left: 15%;
+  filter: blur(1px);
+  animation: shadow 0.5s alternate infinite ease;
 }
 
 @keyframes shadow {
-    0% {
-        transform: scaleX(1.5);
-    }
+  0% {
+    transform: scaleX(1.5);
+  }
 
-    40% {
-        transform: scaleX(1);
-        opacity: .7;
-    }
+  40% {
+    transform: scaleX(1);
+    opacity: 0.7;
+  }
 
-    100% {
-        transform: scaleX(.2);
-        opacity: .4;
-    }
+  100% {
+    transform: scaleX(0.2);
+    opacity: 0.4;
+  }
 }
 
 .shadow:nth-child(4) {
-    left: 45%;
-    animation-delay: .2s
+  left: 45%;
+  animation-delay: 0.2s;
 }
 
 .shadow:nth-child(5) {
-    left: auto;
-    right: 15%;
-    animation-delay: .3s;
+  left: auto;
+  right: 15%;
+  animation-delay: 0.3s;
 }
 
 .waitingAPI span {
-    position: absolute;
-    top: 75px;
-    margin-top:20px;
-    font-family: 'Lato';
-    font-size: 20px;
-    letter-spacing: 12px;
-    color: black;
-    left: 15%;
+  position: absolute;
+  top: 75px;
+  margin-top: 20px;
+  font-family: "Lato";
+  font-size: 20px;
+  letter-spacing: 12px;
+  color: black;
+  left: 15%;
 }
-
 
 /*-----------------------------------------------------------*/
 
 .ms-welcome__header {
-    padding: 20px;
-    padding-bottom: 10px;
-    padding-top: 20px;
-    display: -webkit-flex;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    background: #d6dbdf;
-    box-shadow: 0 4px 2px -2px gray;
+  padding: 20px;
+  padding-bottom: 10px;
+  padding-top: 20px;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: #d6dbdf;
+  box-shadow: 0 4px 2px -2px gray;
 }
 
 /* Partie Pour la zone de texte et le bouton d'envoi */
 
 .ms-welcome__main {
-    flex-direction: column;
-    padding: 10px;
-    padding-bottom: 1.5em;
-    /* Partie Pour la zone de texte de https://developer.mozilla.org/fr/docs/Web/HTML/Element/Textarea */
-    background: #d6dbdf;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 2px -2px #f4f6f6;
+  flex-direction: column;
+  padding: 10px;
+  padding-bottom: 1.5em;
+  /* Partie Pour la zone de texte de https://developer.mozilla.org/fr/docs/Web/HTML/Element/Textarea */
+  background: #d6dbdf;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 2px -2px #f4f6f6;
 }
 
 .form {
-    margin-bottom: 25px;
+  margin-bottom: 25px;
 }
 
 .form__txtFalc {
-    padding: 10px 15px;
-    border-radius: 5px;
-    border: 1px solid #CAD3DB;
-    width: 120px;
-    margin:10px;
-    font-size: 10px;
-    color: #0F121F;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #cad3db;
+  width: 120px;
+  margin: 10px;
+  font-size: 10px;
+  color: #0f121f;
 }
 
-    .form__txtFalc:focus {
-        outline: 1px solid #1f618d;
-    }
+.form__txtFalc:focus {
+  outline: 1px solid #1f618d;
+}
 
 /*Footer*/
 .ms-welcome__footer {
-    flex-direction: column;
-    padding: 10px 10px;
-    background: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  flex-direction: column;
+  padding: 10px 10px;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .subscribe {
-    display: flex;
-    flex-direction: column;
-    background: white;
-    width: 100%;
-    height: 100%;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px gray;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px gray;
 }
 /* Partie Pour la zone des images de https://ehtmlu.com/blog/simple-css-image-grid/ */
 
 .myGallery {
-    display: grid;
-    grid-gap: 7px;
-    grid-template-columns: repeat(auto-fit, minmax(89px, 1fr));
+  display: grid;
+  grid-gap: 7px;
+  grid-template-columns: repeat(auto-fit, minmax(89px, 1fr));
 }
 
-    .myGallery img {
-        width: 100%;
-    }
+.myGallery img {
+  width: 100%;
+}
 
-    .myGallery .item {
-        position: relative;
-        overflow: hidden;
-    }
+.myGallery .item {
+  position: relative;
+  overflow: hidden;
+}
 
-        .myGallery .item img {
-            vertical-align: middle;
-        }
+.myGallery .item img {
+  vertical-align: middle;
+}
 
-    .myGallery .caption {
-        margin: 0;
-        padding: 1em;
-        position: absolute;
-        z-index: 1;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        max-height: 100%;
-        overflow: auto;
-        box-sizing: border-box;
-        transition: transform .5s;
-        transform: translateY(100%);
-        background: rgba(66, 33, 212, 0.7);
-        color: rgb(255, 255, 255);
-    }
+.myGallery .caption {
+  margin: 0;
+  padding: 1em;
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+  transition: transform 0.5s;
+  transform: translateY(100%);
+  background: rgba(66, 33, 212, 0.7);
+  color: rgb(255, 255, 255);
+}
 
-    .myGallery .item:hover .caption {
-        transform: translateY(0%);
-    }
-
+.myGallery .item:hover .caption {
+  transform: translateY(0%);
+}
 
 /* Customization des boutons  */
 .bouton {
-    background-color: #0a1396;
-    border-radius: 4px;
-    border:none;
-    width: 120px;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 10px;
-    margin: 10px;
+  background-color: #0a1396;
+  border-radius: 4px;
+  border: none;
+  width: 120px;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  margin: 10px;
 }
 .bouton3 {
-    background-color: #0a1396;
-    border-radius: 4px;
-    border: none;
-    width: 88px;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 10px;
-    margin: 10px;
+  background-color: #0a1396;
+  border-radius: 4px;
+  border: none;
+  width: 88px;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  margin: 10px;
 }
 /*
     .bouton span {
@@ -270,11 +267,12 @@ body {
             transition: 0.5s;
         } */
 
-    .bouton:hover, .bouton3:hover {
-        background: white;
-        color: #0a1396;
-    }
-    /*
+.bouton:hover,
+.bouton3:hover {
+  background: white;
+  color: #0a1396;
+}
+/*
         .bouton:hover span {
             padding-right: 10px;
         }
@@ -284,178 +282,194 @@ body {
                 right: 0;
             }*/
 
-    .bouton:active, .bouton3:active {
-        background-color: #145a32;
-        color: white;
-    }
-
+.bouton:active,
+.bouton3:active {
+  background-color: #60abdd;
+  color: white;
+}
 
 /* Customization des boutons2  */
 .bouton2 {
-    background-color: #2471a3;
-    border: none;
-    border-radius: 4px;
-    width: 60px;
-    color: white;
-    padding: 5px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 12px;
+  background-color: #2471a3;
+  border: none;
+  border-radius: 4px;
+  width: 60px;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
 }
 
-    .bouton2 span {
-        cursor: pointer;
-        display: inline-block;
-        position: relative;
-        transition: 0.5s;
-    }
+.bouton2 span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
 
-        .bouton2 span:after {
-            content: '\00bb';
-            position: absolute;
-            opacity: 0;
-            top: 0;
-            right: -10px;
-            transition: 0.5s;
-        }
+.bouton2 span:after {
+  content: "\00bb";
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -10px;
+  transition: 0.5s;
+}
 
-    .bouton2:hover span {
-        padding-right: 10px;
-    }
+.bouton2:hover span {
+  padding-right: 10px;
+}
 
-    .bouton2:hover {
-        background-color: #7fb3d5;
-    }
+.bouton2:hover {
+  background-color: #7fb3d5;
+}
 
-    .bouton2:active {
-        background-color: #145a32;
-    }
+.bouton2:active {
+  background-color: #425997;
+}
 
-    .bouton2:hover span:after {
-        opacity: 1;
-        right: 0;
-    }
-
+.bouton2:hover span:after {
+  opacity: 1;
+  right: 0;
+}
 
 /* Accordion */
 
 .accordion {
-    margin: auto;
-    width: 280px;
+  margin: auto;
+  width: 280px;
 }
 
-    .accordion input {
-        display: none;
-    }
+.accordion input {
+  display: none;
+}
 
 .box {
-    position: relative;
-    background: white;
-    height: 64px;
-    transition: all .15s ease-in-out;
+  position: relative;
+  background: white;
+  height: 64px;
+  transition: all 0.15s ease-in-out;
 }
 
-    .box::before {
-        content: '';
-        position: absolute;
-        display: block;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        pointer-events: none;
-        box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
-    }
+.box::before {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
+}
 
 h1.box {
-    background: #0a1396;
-    z-index: 100;
-    cursor: initial;
-    box-shadow: 0 -1px 0 #e5e5e5,0 0 2px -2px rgba(0,0,0,.12),0 2px 4px -4px rgba(0,0,0,.24);
+  background: #0a1396;
+  z-index: 100;
+  cursor: initial;
+  box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px -2px rgba(0, 0, 0, 0.12), 0 2px 4px -4px rgba(0, 0, 0, 0.24);
 }
 
 h1 .box-title {
-    margin: 0;
-    font-weight: normal;
-    font-size: 16pt;
-    color: white;
-    cursor: initial;
+  margin: 0;
+  font-weight: normal;
+  font-size: 16pt;
+  color: white;
+  cursor: initial;
 }
 
 .box-title {
-    width: calc(100% - 40px);
-    height: 64px;
-    line-height: 64px;
-    padding: 0 20px;
-    display: inline-block;
-    cursor: pointer;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -khtml-user-select: none;
+  width: calc(100% - 40px);
+  height: 64px;
+  line-height: 64px;
+  padding: 0 20px;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -khtml-user-select: none;
 }
 
 .box-content {
-    width: calc(100% - 40px);
-    padding: 5px;
-    font-size: 11pt;
-    color: rgba(0,0,0,.54);
-    display: none;
+  width: calc(100% - 40px);
+  padding: 5px;
+  font-size: 11pt;
+  color: rgba(0, 0, 0, 0.54);
+  display: none;
 }
 
 .box-close {
-    position: absolute;
-    height: 64px;
-    width: 100%;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-    display: none;
+  position: absolute;
+  height: 64px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  display: none;
 }
 
 input:checked + .box {
-    height: auto;
-    margin: 16px 0;
-    box-shadow: 0 0 6px rgba(0,0,0,.16),0 6px 12px rgba(0,0,0,.32);
+  height: auto;
+  margin: 16px 0;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.16), 0 6px 12px rgba(0, 0, 0, 0.32);
 }
 
-    input:checked + .box .box-title {
-        border-bottom: 1px solid rgba(0,0,0,.18);
-    }
+input:checked + .box .box-title {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+}
 
-    input:checked + .box .box-content,
-    input:checked + .box .box-close {
-        display: flex;
-        align-items: center;
-        margin: 5px;
-    }
-        input:checked + .box .box-content > div,
-        input:checked + .box .box-close > div {
-            margin: 5px;
-            padding: 5px;            
-            text-align: center;
-            width:60px;
-        }
+input:checked + .box .box-content,
+input:checked + .box .box-close {
+  /* display: flex; */
+  align-items: center;
+  margin: 5px;
+  /* width:75%; */
+  /* Causes the button to sit below the img */
+  display: block;
+}
+input:checked + .box .box-content > div,
+input:checked + .box .box-close > div {
+  margin: 2px;
+  padding: 2px;
+  text-align: center;
+  width: 60px;
+
+  display: block;
+  /* margin-left: auto;
+                margin-right: auto;
+                width: 50%; */
+}
+.grid {
+  /* Specifies css grid to be used */
+  display: grid;
+  /* Specifies the number of columns and sizes in the grid */
+  grid-template-columns: 1fr 1fr 1fr;
+  /* Specifies spacing between grid cells */
+  grid-gap: 0px;
+  text-align: center; /* center button */
+}
 
 .arrows section .box-title {
-    padding-left: 44px;
-    width: calc(100% - 64px);
+  padding-left: 44px;
+  width: calc(100% - 64px);
 }
 
-    .arrows section .box-title:before {
-        position: absolute;
-        display: block;
-        content: '\203a';
-        font-size: 18pt;
-        left: 20px;
-        top: -2px;
-        transition: transform .15s ease-in-out;
-        color: rgba(0,0,0,.54);
-    }
+.arrows section .box-title:before {
+  position: absolute;
+  display: block;
+  content: "\203a";
+  font-size: 18pt;
+  left: 20px;
+  top: -2px;
+  transition: transform 0.15s ease-in-out;
+  color: rgba(0, 0, 0, 0.54);
+}
 
 input:checked + section.box .box-title:before {
-    transform: rotate(90deg);
+  transform: rotate(90deg);
 }
