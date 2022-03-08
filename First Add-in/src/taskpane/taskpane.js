@@ -1,4 +1,3 @@
-
 // ####### Global variables ############################################################################
 
 // images references for the logo of falc, in different sizes.
