@@ -1,4 +1,16 @@
-# Auto_FALC
+<img src="https://www.multi-hardware.com/wp-content/uploads/2020/05/produits-Microsoft.png" alt="alt text" width="175" height="whatever" align="left">
+<img src="https://www.cpamcgt06.fr/wp-content/uploads/2020/04/Unknown-1.png" alt="alt text" width="160" height="whatever" align="right">
+
+
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Logo_ESILV.svg/2560px-Logo_ESILV.svg.png" width="220" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/chlotmpo/Auto_FALC/blob/main/Illustrations_README/logo.png?raw=true " width="500" />
+</p>  
+
+## Introduction
 
 Le projet **Auto FALC** a été proposé par **Microsoft France** et l’**UCANSS** et est réalisé par une équipe composée de 5 étudiants ingénieurs en M1 “Data & IA” à l’ESILV. Il consiste à concevoir un outil permettant de générer automatiquement une illustration de texte FALC.   
 
@@ -12,52 +24,91 @@ L’objectif du projet consiste donc à faciliter l’illustration du FALC grâc
 
 Afin de réaliser cette objectif, notre équipe a décidé de s’orienter vers la réalisation d’un **Add-In Word**, facile à installer, qui **analysera le texte** écrit en FALC, et proposera **automatiquement des pictogrammes**. La personne qui travaille sur la traduction d’un texte en FALC pourra alors choisir, et placer les pictogrammes qui lui conviennent et cela lui permettra de gagner un temps considérable sur la recherche des illustrations. 
 
+---
+## Sommaire
+
+1. [Avancement/Démonstration](#Avancement)
+2. [Installation](#Installation)
+3. [Guide d'utilisation](#Guide-d'utilisation)
+4. [Crédit](#Crédit)
+
+---
+
 ## Avancement :
+
+- Démonstration :
 
 https://user-images.githubusercontent.com/84092005/149626335-8022148c-84d3-434f-a8cf-b7383101c647.mp4
 
-## Schéma Structurel :
-<a href="url"><img src="https://github.com/chlotmpo/Auto_FALC/blob/0f53cddedcddccc855609c29d6e732e367d0ac90/structure.png" align="center" width=100% height=100% ></a>
+- Schéma Structurel :
+<a href="url"><img src="https://github.com/chlotmpo/Auto_FALC/blob/main/Illustrations_README/structure.png?raw=true" align="center" width=100% height=100% ></a>
+[Back To The Top](#Sommaire)
+
+---
+## Installation
+
+1. Créer **un compte Github**.
+
+2. **Cloner le repository** `https://github.com/chlotmpo/Auto_FALC`
+
+3. Installer **un python IDE** si vous n'en possédez pas déjà un.
+
+4. Assurez-vous d'avoir **les librairies python** suivantes d'installées pour que l'IA fonctionne.
+* pyodbc
+* yake
+* KeyBERT
+* flask
+* thefuzz
+
+Sinon exécutez les commandes suivantes ( sur Anaconda IDE par exemple)
+```sh
+❯ pip install "librairie_name" 
+```
+
+4. **Exécuter le programme [../First Add-in/src/taskpane/pythonAPI.py]()** dans votre IDE python
+```sh
+#Le message suivant doit apparaître
+❯ Running on http://localhost:8989/ (Press CTRL+C to quit)
+```
+5. Installer [NodeJS](https://nodejs.org/en/)
+
+6. Ouvrir l'invite de commande et exécuter le code suivant
+
+```sh
+❯ cd Auto_FALC/First Add-in/
+> npm start
+```
+Vous devriez voir les informations suivantes :
+<p align="center">
+  <img src="https://github.com/chlotmpo/Auto_FALC/blob/main/Illustrations_README/lancement.PNG?raw=true" width="500" />
+</p>
+
+7. Une page Word va s'ouvrir automatiquement, l'Add-In est prêt à être utiliser
+
+[Back To The Top](#Sommaire)
+
+---
+## Guide d'utilisation
+* Ecrivez votre texte dans la page d'édition
+* Sélectionnez à l'aide de votre curseur le texte à illustrer
+* Appuyez sur le bouton **Start**
+* Patientez quelques instant jusqu'à l'apparition de mots clés dans l'emplacement **Keywords:**
+* Insérez les images que vous souhaitez en appuyant sur **Insérer**
+
+<p align="center">
+  <img src="https://github.com/chlotmpo/Auto_FALC/blob/main/Illustrations_README/Insert.png?raw=true" width="300" />
+</p>
+
+[Back To The Top](#Sommaire)
+
+---
+## Crédit
+- Carval Nicolas - [@NicolasCarval](https://github.com/NicolasCarval)
+- Pincet Bruno - [@GitBrunoCode](https://github.com/GitBrunoCode)
+- Tempo Chloé - [@chlotmpo](https://github.com/chlotmpo)
+- Salle Laurine - [@912-SALLE-Laurine](https://github.com/912-SALLE-Laurine)
+- Tempe Louis - [@ltempe](https://github.com/ltempe)
 
 
-### Projet Add-in : 
-#### Le dossier First Add-in comporte l'add-in fonctionnel
-c'est à dire qu'il suffit d'avoir installé node.js (et Yeoman ?) pour pouvoir lancer le projet.
-donc à chaque fois que l'on souhaite le tester:
-- utiliser git bash, se placer dans le "main"
-- git push (pour récupérer toutes les dernières modif en ligne)
-- utiliser son invite de commande
-- se placer dans le dossier First Add-in
-- npm start (démarre le projet)
 
-pour modifier : ne pas oublier de créer sa branche, de faire ses commit sur sa branche, une fois fait de merge puis executer git push pour maj en ligne
-
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-### Le dossier Test Add-In permet de lancer un premier prototype de l'Add-In
-
-tips : - créér un add-in en utilisant le Yeoman generator comme décrit dans le tutoriel suivant : https://docs.microsoft.com/fr-fr/office/dev/add-ins/tutorials/word-tutorial
-       - remplacer les images du dossier assets par ceux du dossier Test Add-In
-       - remplacer les fichiers du dossier src/taskpane/ par taskpane.css, taskpane.html et taskpane.js du dossier Test Add-In
-       - lancer l'Add-In en suivant le tutoriel de Microsoft précédent ( cd pour aller dans la racine du dossier et commande npm start )
-       
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-### Le fichier .py "YAKE_algo", permet de tester rapidement l'IA YAKE sur un doc .txt nommé "texte".
-tips : -installer les librairies en utilisant les commandes en commentaire, dans le prompt d'anaconda
-       -changer le path du fichier dans open() pour que ça marche
- 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-### Dossier Pictogrammes 
-Ce dossier contient une multitude de sous-dossiers correspondant aux mots-clés trouvés dans les textes FALC, avec 3 pictogrammes par sous-dossier
-
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-### Dossier Texte FALC 
-Ce dossier contient les 3 textes FALC qui nous serviront d'exemple, ces même textes avec leur mots clés surlignés, la liste des mots clés retenus avec le lien de chaque pictogramme associé et d'autres exemples donnés lors de la formation. 
-
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-### librairies_mots_similaires.ipynb
-Ce fichier est un notebook jupyter qui contient les codes de test des différents librairies permettant de comparer la distance, similarité de deux mots
-
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-### Lien JavaScript - MySQL.docx 
-Ce document contient des liens-tutoriels pour obtenir une connection entre JavaScript et MySQL. Différentes méthodes sont détaillées et expliquées avec des exemples de code
+[Back To The Top](#Sommaire)
