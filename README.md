@@ -29,7 +29,7 @@ Afin de réaliser cette objectif, notre équipe a décidé de s’orienter vers 
 
 1. [Avancement/Démonstration](#Avancement)
 2. [Installation](#Installation)
-3. [Guide d'utilisation](#Guide-d'utilisation)
+3. [Guide d'utilisation](#Utilisation)
 4. [Crédit](#Crédit)
 
 ---
@@ -88,7 +88,7 @@ Vous devriez voir les informations suivantes :
 [Back To The Top](#Sommaire)
 
 ---
-## Guide d'utilisation
+## Utilisation
 * Ecrivez votre texte dans la page d'édition
 * Sélectionnez à l'aide de votre curseur le texte à illustrer
 * Appuyez sur le bouton **Start**
