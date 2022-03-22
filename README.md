@@ -12,17 +12,17 @@
 
 ## Introduction
 
-Le projet **Auto FALC** a été proposé par **Microsoft France** et l’**UCANSS** et est réalisé par une équipe composée de 5 étudiants ingénieurs en M1 “Data & IA” à l’ESILV. Il consiste à concevoir un outil permettant de générer automatiquement une illustration de texte FALC.   
+Microsoft France et l’UCANSS souhaitent disposer d’un outil permettant de générer facilement des documents imagés en utilisant la méthode FALC (Facile A Lire et à Comprendre) et afin d’en faciliter la lecture pour des personnes analphabètes ou avec des troubles mentaux. La méthode FALC a été développé par l’association UNAPEI et représente un ensemble de règles ayant pour but de rendre un langage classique en langage compréhensible par tous.  
 
-Il est donc important de définir ce que signifie le terme **« FALC »**. Généralement, les personnes en situation de handicap intellectuel rencontrent des difficultés à lire des textes du fait de leur complexité, et de leur mise en forme non intuitive. Le Facile à lire et à comprendre (ou FALC) est là pour répondre à ce problème.  
+Ce projet proposé par Microsoft France a été réalisé par 5 étudiants ingénieurs en M1 « Data et Intelligence Artificielle » à l’ESILV (Ecole Supérieure d’Ingénieurs Léonard de Vinci), pour une durée de 6 mois d’octobre 2021 à mars 2022. Ces 5 étudiants sont Nicolas CARVAL, Bruno PINCET, Laurine SALLE, Louis TEMPE et Chloé TEMPO.  
 
-Le FALC a été créé en 2009, à travers un projet européen intitulé « Pathways », il s’agit d’un ensemble de règles d’écriture de documents (qui portent à la fois sur le fond du texte, et sur sa forme), permettant aux personnes en situation de handicap intellectuel de mieux comprendre et lire des documents.    
+L’idée est de s’appuyer sur de l’IA pour analyser une phrase, en isoler les mots clés et à utiliser une bibliothèque de pictogramme pour proposer au rédacteur un outil simple et ergonomique pour illustrer des documents FALC. Un texte FALC est encore plus compréhensible lorsqu’il est illustré par des dessins, pictogrammes ou photos. Cependant, il est aujourd’hui encore trop difficile pour ses concepteurs de trouver rapidement des illustrations adaptées. La rédaction reste encore trop contraignante.  
 
-Par ailleurs, un texte FALC est encore plus compréhensible lorsqu’il est **illustré** par des dessins, pictogrammes ou photos. Cependant, il est aujourd’hui encore trop difficile pour ses concepteurs de trouver rapidement des illustrations adaptées. ***La rédaction demeure trop contraignante. **  
+PictoFALC consiste donc à faciliter l’illustration du FALC grâce à l’IA, en utilisant des puissants algorithmes tels que BERT et YAKE, et propose automatiquement des pictogrammes adaptés à un texte écrit en FALC, pour faciliter le travail des utilisateurs.  Un add-in intégré directement à Word a été créé et permet d’analyser le texte écrit en FALC, récupère tous les mots clés et propose des pictogrammes correspondants pour illustrer. La personne qui travaille sur la traduction d’un texte FALC peut alors choisir et placer les pictogrammes qui lui conviennent directement dans le document. C’est un gain de temps et une aide considérable sur la recherche d’illustrations.  
 
-L’objectif du projet consiste donc à faciliter l’illustration du FALC grâce à l’**IA**, en proposant automatiquement des pictogrammes adaptés à un texte écrit en FALC et ainsi faciliter le travail des illustrateurs.  
+Ce projet comprend donc 3 grandes parties techniques, la partie add-in dans Word, la partie IA et la partie base de données pour stocker tous les pictogrammes associés à des mots clés. Les langages utilisés sont donc le Javascript et le Python. De nombreuses librairies ont été implémentées au fur et à mesure de l’avancée du projet pour rendre le fonctionnement de l’algo final d’IA de plus en plus performant et pour apporter toujours des meilleurs résultats sur la sélection des mots-clés du texte à analyser. Voici quelques exemples de librairies utilisées : « Autocorrect », « TheFuzz », « TreeTaggerWrapper ». Tout au long de ces mois de travail, le projet a peu évolué en termes d’objectifs visés mais a beaucoup évolué en termes de performance et d’efficacité. Il est aujourd’hui fonctionnel et peut être facilement utilisé.  
 
-Afin de réaliser cette objectif, notre équipe a décidé de s’orienter vers la réalisation d’un **Add-In Word**, facile à installer, qui **analysera le texte** écrit en FALC, et proposera **automatiquement des pictogrammes**. La personne qui travaille sur la traduction d’un texte en FALC pourra alors choisir, et placer les pictogrammes qui lui conviennent et cela lui permettra de gagner un temps considérable sur la recherche des illustrations. 
+Pour le futur, PictoFALC a vocation d’être repris par les équipes de Microsoft pour être encore plus complété et être mis en production sur l’application Microsoft Word. L’objectif final est donc de déployer au maximum cette solution pour apporter de l’aide à tous les rédacteurs de documents FALC et leur permettre d’illustrer n’importe quelle phrase et mots-clés de leurs documents. Pour toutes les personnes en situation de handicap intellectuel, PictoFALC leur promet une meilleure accessibilité pour aller encore plus loin dans la création de documents FALC et donc en permettant de faciliter encore plus la lecture et la compréhension de ces documents aux yeux de tous. 
 
 ---
 ## Sommaire
@@ -62,10 +62,10 @@ https://user-images.githubusercontent.com/84092005/149626335-8022148c-84d3-434f-
 
 Sinon exécutez les commandes suivantes ( sur Anaconda IDE par exemple)
 ```sh
-❯ pip install "librairie_name" 
+❯ pip install "librairie" 
 ```
 
-4. **Exécuter le programme [../First Add-in/src/taskpane/pythonAPI.py]()** dans votre IDE python
+4. **Exécuter le programme [../First Add-in/src/taskpane/pythonAPI.py](https://github.com/chlotmpo/Auto_FALC/blob/main/First%20Add-in/src/taskpane/pythonAPI.py)** dans votre IDE python
 ```sh
 #Le message suivant doit apparaître
 ❯ Running on http://localhost:8989/ (Press CTRL+C to quit)
@@ -93,7 +93,7 @@ Vous devriez voir les informations suivantes :
 * Sélectionnez à l'aide de votre curseur le texte à illustrer
 * Appuyez sur le bouton **Start**
 * Patientez quelques instant jusqu'à l'apparition de mots clés dans l'emplacement **Keywords:**
-* Insérez les images que vous souhaitez en appuyant sur **Insérer**
+* Insérez les images que vous souhaitez en appuyant sur **Insert**
 
 <p align="center">
   <img src="https://github.com/chlotmpo/Auto_FALC/blob/main/Illustrations_README/Insert.png?raw=true" width="300" />
