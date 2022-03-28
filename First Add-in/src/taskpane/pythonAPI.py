@@ -38,7 +38,7 @@ def thisRoute():
 def IAToJS():
     print("sélection des kw dans le txt")
 
-    txtFALC = information.decode()
+    txtFALC = information.decode().replace('\\u000b', '')
     if len(txtFALC.split()) == 1:
         txtFALC=txtFALC[1:-1]
         kwdict = Query_DB([txtFALC])
