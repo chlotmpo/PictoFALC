@@ -58,7 +58,7 @@ https://github.com/chlotmpo/PictoFALC/blob/e46d9245e99baba118d8a448bc2072c992f3a
 * KeyBERT
 * flask
 * thefuzz
-* TreeTagger (to help you can head to this tutorial : [**Tutorial TreeTagger**](https://github.com/chlotmpo/PictoFALC/blob/main/Tuto&Test_Libraries/TreeTagger Tutoriel.docx)
+* TreeTagger (to help you can head to this tutorial : [**Tutorial TreeTagger**](https://github.com/chlotmpo/PictoFALC/blob/main/Tuto&Test_Libraries/TreeTagger_Tutorial.pdf)
 
 Sinon exécutez les commandes suivantes ( sur Anaconda IDE par exemple)
 ```sh
