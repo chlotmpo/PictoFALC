@@ -12,25 +12,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
-using System.IO;
-using System.Diagnostics;
-using System.Net;
-using System.Runtime.InteropServices;
 using System.Data;
-using MySql.Data.MySqlClient;
-using System.Configuration;
+using System.Net;
+using Microsoft.Data.SqlClient;
 
 namespace Projet
 {
     /// <summary>
-    /// Logique d'interaction pour MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MySqlConnection connexion; //Instance de MySqlConnection
+        private SqlConnection connexion; //Instance de SqlConnection
         private string dossier; //Dossier où sont stockées les images.
-        //Pour l'instant le dossier est en chemin absolu. Il faut le préciser dans la méthode Initialisation()
+                                //Pour l'instant le dossier est en chemin absolu. Il faut le préciser dans la méthode Initialisation()
 
         public MainWindow()
         {
@@ -41,29 +36,30 @@ namespace Projet
 
         #region Initialisation
         /// <summary>
-        /// Permet d'ouvrir une instance de MySqlConnection pour faire le lien avec une base de données MySql
+        /// Permet d'ouvrir une instance de SqlConnection pour faire le lien avec une base de données Sql
         /// </summary>
-        /// <param name="server">Serveur de la base de données MySql</param>
+        /// <param name="server">Serveur de la base de données Sql</param>
         /// <param name="port">Port associé à la base de données</param>
         /// <param name="database">Nom de la base de données</param>
         /// <param name="userId">Id de l'utilisateur</param>
         /// <param name="password">Mot de passe de l'utilisateur</param>
-        /// <returns>Instance de MySqlConnection pour une connexion ouverte</returns>
-        private MySqlConnection OuvrirConnexion(string server, string port, string database, string userId, string password)
+        /// <returns>Instance de SqlConnection pour une connexion ouverte</returns>
+        private SqlConnection OuvrirConnexion(string server, string database, string userId, string password)
         {
             Console.WriteLine();
-            MySqlConnection connexion = null;
+            SqlConnection connexion = null;
             try
             {
                 //Ouverture de la connexion
-                string connexionString = $"SERVER={server};PORT={port};" +
-                                         $"DATABASE={database};" +
-                                         $"UID={userId};PASSWORD={password}";
-
-                connexion = new MySqlConnection(connexionString);
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                builder.DataSource = $"{server}.database.windows.net";
+                builder.UserID = userId;
+                builder.Password = password;
+                builder.InitialCatalog = database;
+                connexion = new SqlConnection(builder.ConnectionString);
                 connexion.Open();
             }
-            catch (MySqlException e) //Message d'erreur en cas de problème dû à MySql
+            catch (SqlException e) //Message d'erreur en cas de problème dû à Sql
             { MessageBox.Show("Erreur Connexion : " + e.Message); }
             return connexion;
         }
@@ -73,28 +69,29 @@ namespace Projet
         /// </summary>
         private void Initialisation()
         {
-            dossier = @"C:\Users\louis\OneDrive - De Vinci\Documents\Cours\A4\S7\PI2\Gestion_Base\Projet\bin\Debug\pictogrammes\";
-            connexion = OuvrirConnexion("localhost", "3306", "Falc", "root", "root");
+            dossier = @"https://falcimages.blob.core.windows.net/falccontainer/";
+            connexion = OuvrirConnexion("falcserver", "Falc_DB", "azureuser", "rootFALC2022");
+            //AfficherRequete("SELECT * FROM motcle;", dg_motcle);
             Actualiser();
         }
 
         /// <summary>
         /// Affiche le résultat d'une requête SQL dans un DataGrid
         /// </summary>
-        /// <param name="requete">Requête MySql à exécuter</param>
+        /// <param name="requete">Requête Sql à exécuter</param>
         /// <param name="dg">DataGrid dans lequel on souhaite afficher le résultat</param>
         private void AfficherRequete(string requete, DataGrid dg)
         {
             try
             {
-                MySqlCommand cmd = new MySqlCommand(requete, connexion);
-                MySqlDataAdapter adp = new MySqlDataAdapter(cmd);
+                SqlCommand cmd = new SqlCommand(requete, connexion);
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
                 DataSet ds = new DataSet();
                 adp.Fill(ds, "LoadDataBinding");
                 dg.DataContext = ds;
             }
-            catch (MySqlException ex) //Message en cas d'erreur MySql
-            { MessageBox.Show("Erreur MySql : " + ex.Message); }
+            catch (SqlException ex) //Message en cas d'erreur Sql
+            { MessageBox.Show("Erreur Sql : " + ex.Message); }
         }
 
         /// <summary>
@@ -139,11 +136,11 @@ namespace Projet
         /// </summary>
         private void RemplissageMotsCle()
         {
-            string requete = "SELECT mc.id_mc AS ID, Mot, GROUP_CONCAT(url SEPARATOR '\n') AS 'Lien des pictogrammes associés' " +
+            string requete = "SELECT mc.id_mc AS ID, Mot, STRING_AGG(url, '\n') AS \"Lien des pictogrammes associés\" " +
                 "FROM motcle mc " +
                 "LEFT JOIN picto_motcle pm ON mc.id_mc = pm.id_mc " +
                 "LEFT JOIN picto p ON p.id_pic = pm.id_pic " +
-                "GROUP BY mc.id_mc;";
+                "GROUP BY mc.id_mc, mc.mot;";
             AfficherRequete(requete, dg_motcle);
         }
 
@@ -166,7 +163,7 @@ namespace Projet
                 {
                     //On associe au Tag du datagrid l'id, de sorte que si l'utilisateur venait
                     //à re-sélectionner la même ligne, on enlève tous les champs
-                    dg_motcle.Tag = id; 
+                    dg_motcle.Tag = id;
                     tbk_mc_info.Text = "Modifier / Supprimer mot";
 
                     //On enlève le bouton "valider" et on met les boutons "modifier" et "supprimer" à la place
@@ -179,12 +176,13 @@ namespace Projet
                     tbk_mc_id.Tag = id;
 
                     //On récupère le mot et les pictogrammes qui lui sont associés
-                    string requete = "SELECT mot, GROUP_CONCAT(id_pic) " +
-                                     "FROM motcle mc " +
-                                     "LEFT JOIN picto_motcle pm ON mc.id_mc = pm.id_mc " +
-                                    $"WHERE mc.id_mc = {id};";
-                    MySqlCommand cmd = new MySqlCommand(requete, connexion);
-                    MySqlDataReader reader = cmd.ExecuteReader();
+                    string requete = "SELECT mot, STRING_AGG(id_pic, ',') " +
+                                        "FROM motcle mc " +
+                                        "LEFT JOIN picto_motcle pm ON mc.id_mc = pm.id_mc " +
+                                    $"WHERE mc.id_mc = {id} " +
+                                    "GROUP BY mot;";
+                    SqlCommand cmd = new SqlCommand(requete, connexion);
+                    SqlDataReader reader = cmd.ExecuteReader();
                     reader.Read();
                     string mot = reader.GetString(0);
                     tbx_mot.Text = mot;
@@ -239,9 +237,9 @@ namespace Projet
 
 
             //On précise le numéro du prochain mot-clé
-            MySqlCommand cmd = new MySqlCommand("SELECT max(id_mc) + 1 FROM motcle;", connexion);
-            MySqlDataReader reader = cmd.ExecuteReader(); reader.Read();
-            int id = reader.GetUInt16(0); reader.Close();
+            SqlCommand cmd = new SqlCommand("SELECT max(id_mc) + 1 FROM motcle;", connexion);
+            SqlDataReader reader = cmd.ExecuteReader(); reader.Read();
+            int id = reader.GetInt32(0); reader.Close();
             tbk_mc_id.Text = "ID : " + id;
             tbk_mc_id.Tag = id;
         }
@@ -305,8 +303,8 @@ namespace Projet
             //On récupère toutes les url des pictogrammes de la base qui n'ont pas déjà été sélectionnés dans
             //les précédents combobox
             string requete = "SELECT id_pic, url FROM picto WHERE id_pic NOT IN " + liste + ");";
-            MySqlCommand cmd = new MySqlCommand(requete, connexion);
-            MySqlDataReader reader = cmd.ExecuteReader();
+            SqlCommand cmd = new SqlCommand(requete, connexion);
+            SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
                 //On récupère l'image pour pouvoir l'afficher
@@ -324,7 +322,7 @@ namespace Projet
                 ComboBoxItem item = new ComboBoxItem()
                 {
                     Content = sp,
-                    Tag = reader.GetString(0)
+                    Tag = reader.GetInt16(0)
                 };
                 cbx.Items.Add(item);
             }
@@ -355,7 +353,7 @@ namespace Projet
                 //Et on supprime
                 string requete = "DELETE FROM picto_motcle " +
                                 $"WHERE id_mc = {id_mc} AND id_pic = {id_pic}";
-                MySqlCommand cmd = new MySqlCommand(requete, connexion);
+                SqlCommand cmd = new SqlCommand(requete, connexion);
                 cmd.ExecuteNonQuery(); cmd.Dispose();
 
                 //On actualise ensuite l'affichage du datagrid
@@ -417,7 +415,7 @@ namespace Projet
             {
                 //On récupère l'id du mot dans le tag du textblock
                 string id_mc = tbk_mc_id.Tag.ToString();
-                MySqlCommand cmd = new MySqlCommand($"INSERT INTO motcle VALUES ({id_mc},'{mot}');", connexion);
+                SqlCommand cmd = new SqlCommand($"SET IDENTITY_INSERT motcle ON; INSERT INTO motcle (id_mc, mot) VALUES ({id_mc},'{mot}');", connexion);
                 try
                 {
                     //On ajoute le mot
@@ -429,12 +427,12 @@ namespace Projet
                         //Pour chaque pictogramme sélectionné, on ajoute une association
                         ComboBox cbx = sp.Children[0] as ComboBox;
                         string id_pic = ((ComboBoxItem)cbx.SelectedItem).Tag.ToString();
-                        cmd.CommandText = $"INSERT INTO picto_motcle VALUES ({id_mc},{id_pic});";
+                        cmd.CommandText = $"INSERT INTO picto_motcle (id_mc, id_pic) VALUES ({id_mc},{id_pic});";
                         cmd.ExecuteNonQuery();
                     }
                 }
-                catch (MySqlException ex) //Message en cas d'erreur SQL (contrainte non respectée, etc)
-                { MessageBox.Show("Erreur MySql : " + ex.Message); }
+                catch (SqlException ex) //Message en cas d'erreur SQL (contrainte non respectée, etc)
+                { MessageBox.Show("Erreur Sql : " + ex.Message); }
                 finally
                 {
                     cmd.Dispose();
@@ -452,9 +450,9 @@ namespace Projet
         {
             //On récupère tous les mots de la base excepté celui qu'on a modifié
             string mot = tbx_mot.Text.ToUpper();
-            string requete = $"SELECT GROUP_CONCAT(UPPER(mot)) FROM motcle WHERE UPPER(mot) != '{mot}';";
-            MySqlCommand cmd = new MySqlCommand(requete, connexion);
-            MySqlDataReader reader = cmd.ExecuteReader();
+            string requete = $"SELECT STRING_AGG(UPPER(mot), ',') FROM motcle WHERE UPPER(mot) != '{mot}';";
+            SqlCommand cmd = new SqlCommand(requete, connexion);
+            SqlDataReader reader = cmd.ExecuteReader();
             reader.Read();
             string[] mots = reader.GetString(0).Split(',');
             reader.Close();
@@ -472,22 +470,21 @@ namespace Projet
                     mot = tbx_mot.Text;
                     cmd.CommandText = $"UPDATE motcle SET mot = '{mot}' WHERE id_mc = {id_mc};";
                     cmd.ExecuteNonQuery();
-
                     //Pour chaque nouveau combobox, on ajoute une nouvelle association
                     foreach (StackPanel sp in sp_mc_pictos.Children)
                     {
                         ComboBox cbx = sp.Children[0] as ComboBox;
-                        if (cbx.IsEnabled == true) 
-                            //On vérifie que le pictogramme est bien nouveau
-                            //pour ne pas ajoute de doublons
+                        if (cbx.IsEnabled == true)
+                        //On vérifie que le pictogramme est bien nouveau
+                        //pour ne pas ajoute de doublons
                         {
                             string id_pic = ((ComboBoxItem)cbx.SelectedItem).Tag.ToString();
-                            cmd.CommandText = $"INSERT INTO picto_motcle VALUES ({id_mc},{id_pic});";
+                            cmd.CommandText = $"INSERT INTO picto_motcle (id_mc, id_pic) VALUES ({id_mc},{id_pic});";
                             cmd.ExecuteNonQuery();
                         }
                     }
                 }
-                catch (MySqlException ex)
+                catch (SqlException ex)
                 { MessageBox.Show(ex.Message); }
             }
             cmd.Dispose(); Actualiser(); dg_motcle.Tag = 0;
@@ -503,7 +500,7 @@ namespace Projet
             //On récupère l'id du mot-clé et on le supprime de la base
             string id = tbk_mc_id.Tag.ToString();
             string requete = $"DELETE FROM motcle WHERE id_mc = {id};";
-            MySqlCommand cmd = new MySqlCommand(requete, connexion);
+            SqlCommand cmd = new SqlCommand(requete, connexion);
             cmd.ExecuteNonQuery(); cmd.Dispose();
             Actualiser();
         }

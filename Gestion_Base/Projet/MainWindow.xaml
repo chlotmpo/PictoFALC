@@ -7,12 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid Background="AliceBlue">
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="6*"/>
         </Grid.RowDefinitions>
-        
+
         <TextBlock Text="Gestion Base de Données" 
                    FontSize="40"  
                    HorizontalAlignment="Center" 
@@ -26,7 +26,7 @@
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
-                    
+
                     <ScrollViewer PreviewMouseWheel="scrollViewer_PreviewMouseWheel" VerticalScrollBarVisibility="Auto" Margin="0,50,0,0">
                         <DataGrid HorizontalAlignment="Left" Margin="10" Name="dg_motcle" ItemsSource="{Binding Path=LoadDataBinding}" 
                                       Tag="0" CanUserAddRows="False"
