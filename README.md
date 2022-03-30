@@ -67,14 +67,16 @@ Sinon exécutez les commandes suivantes ( sur Anaconda IDE par exemple)
 ❯ pip install "librairie" 
 ```
 
-4. **Exécuter le programme [../First Add-in/src/taskpane/pythonAPI.py](https://github.com/chlotmpo/Auto_FALC/blob/main/First%20Add-in/src/taskpane/pythonAPI.py)** dans votre IDE python
+5. Suivre toutes les étapes du fichier [../Tuto&Test_Librairies/Tuto_Ressources_Azure.pdf]()
+
+6. **Exécuter le programme [../First Add-in/src/taskpane/pythonAPI.py](https://github.com/chlotmpo/Auto_FALC/blob/main/First%20Add-in/src/taskpane/pythonAPI.py)** dans votre IDE python
 ```sh
 #Le message suivant doit apparaître
 ❯ Running on http://localhost:8989/ (Press CTRL+C to quit)
 ```
-5. Installer [NodeJS](https://nodejs.org/en/)
+7. Installer [NodeJS](https://nodejs.org/en/)
 
-6. Ouvrir l'invite de commande et exécuter le code suivant
+8. Ouvrir l'invite de commande et exécuter le code suivant
 
 ```sh
 ❯ cd Auto_FALC/First Add-in/
@@ -85,7 +87,7 @@ Vous devriez voir les informations suivantes :
   <img src="https://github.com/chlotmpo/Auto_FALC/blob/main/Illustrations_README/lancement.PNG?raw=true" width="500" />
 </p>
 
-7. Une page Word va s'ouvrir automatiquement, l'Add-In est prêt à être utiliser
+9. Une page Word va s'ouvrir automatiquement, l'Add-In est prêt à être utiliser
 
 [Back To The Top](#Sommaire)
 
