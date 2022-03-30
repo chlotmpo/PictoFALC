@@ -1,0 +1,3 @@
+Campos, R., Mangaravite, V., Pasquali, A., Jatowt, A., Jorge, A., Nunes, C. and Jatowt, A. (2020). 
+YAKE! Keyword Extraction from Single Documents using Multiple Local Features. 
+In Information Sciences Journal. Elsevier, Vol 509, pp 257-289
