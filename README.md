@@ -67,7 +67,7 @@ Sinon exécutez les commandes suivantes ( sur Anaconda IDE par exemple)
 ❯ pip install "librairie" 
 ```
 
-5. Suivre toutes les étapes du fichier [../Tuto&Test_Librairies/Tuto_Ressources_Azure.pdf]()
+5. Suivre toutes les étapes du fichier [../Tuto&Test_Librairies/Tuto_Ressources_Azure.pdf](https://github.com/chlotmpo/PictoFALC/blob/main/Tuto%26Test_Librairies/Tuto_Ressources_Azure.pdf)
 
 6. **Exécuter le programme [../First Add-in/src/taskpane/pythonAPI.py](https://github.com/chlotmpo/Auto_FALC/blob/main/First%20Add-in/src/taskpane/pythonAPI.py)** dans votre IDE python
 ```sh
