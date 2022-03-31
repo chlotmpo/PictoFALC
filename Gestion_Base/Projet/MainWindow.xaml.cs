@@ -69,8 +69,8 @@ namespace Projet
         /// </summary>
         private void Initialisation()
         {
-            dossier = @"https://falcimages.blob.core.windows.net/falccontainer/";
-            connexion = OuvrirConnexion("falcserver", "Falc_DB", "azureuser", "rootFALC2022");
+            dossier = @"https://falcimages.blob.core.windows.net/xxxxxxx/";
+            connexion = OuvrirConnexion("xxxxxx", "xxxxx", "xxxxxxxxx", "xxxxxxxxxxx");
             //AfficherRequete("SELECT * FROM motcle;", dg_motcle);
             Actualiser();
         }
