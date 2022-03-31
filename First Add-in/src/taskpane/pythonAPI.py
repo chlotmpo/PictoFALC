@@ -67,11 +67,11 @@ def open_text(filename):
 # Azure translator
 import requests, uuid, json
 # Add your subscription key and endpoint
-subscription_key = "9f845a5ff10f43719c60100584c22e7f"
+subscription_key = "xxxxxxxxx"
 endpoint = "https://api.cognitive.microsofttranslator.com"
 # Add your location, also known as region. The default is global.
 # This is required if using a Cognitive Services resource.
-location = "francecentral"
+location = "xxxxxxx"
 path = '/translate'
 constructed_url = endpoint + path
 headers = {
@@ -282,10 +282,10 @@ def keywords_extraction(french_text):
 ###################################################################
 
 
-server = 'falcserver.database.windows.net'
-database = 'Falc_DB'
-username = 'azureuser'
-password = '{rootFALC2022}'
+server = 'xxxxxxxxxxxxx'
+database = 'xxxxx'
+username = 'xxxxxxxxxx'
+password = '{xxxxxxxx}'
 driver = '{ODBC Driver 17 for SQL Server}'
 
 
