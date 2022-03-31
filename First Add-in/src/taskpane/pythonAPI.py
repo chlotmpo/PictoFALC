@@ -313,7 +313,7 @@ def Query_KW(kw):
             while row:
                 []
                 image_kw.append(
-                    "https://falcimages.blob.core.windows.net/falccontainer/"+str(row[0]))
+                    "https://falcimages.blob.core.windows.net/xxxxxxx/"+str(row[0]))
                 #print (str(row[0]) + " " + str(row[1]))
                 row = cursor.fetchone()
     return image_kw
